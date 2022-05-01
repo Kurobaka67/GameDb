@@ -1,4 +1,4 @@
-#  Sakai Admin Template for Vue  
+#  Video Games Database Vuejs application
  
 ### Live Preview
  
