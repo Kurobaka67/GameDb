@@ -2,7 +2,7 @@
 	<div :class="containerClass" @click="onWrapperClick">
         <AppTopBar @menu-toggle="onMenuToggle" />
 
-        <div class="layout-main-container">
+        <div class="layout-j4-container">
             <div class="layout-main">
                 <router-view />
             </div>
