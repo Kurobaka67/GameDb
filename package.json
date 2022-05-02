@@ -10,7 +10,8 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
-		"test:unit": "vue-cli-service test:unit"
+		"test:unit": "vue-cli-service test:unit",
+		"deploy": "node scripts/gh-pages-deploy.js"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "~4.5.0",
@@ -32,6 +33,7 @@
 		"primevue": "^3.12.2",
 		"prismjs": "1.9.0",
 		"vue": "3.2.9",
-		"vue-router": "^4.0.0-0"
+		"vue-router": "^4.0.0-0",
+		"execa": "latest"
 	}
 }
