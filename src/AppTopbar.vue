@@ -1,7 +1,7 @@
 <template>
 	<div class="layout-topbar" :style="topbarStyle">
 		<router-link to="/" class="layout-topbar-logo">
-			<img src="/images/avatar/kurobaCat.png" :style="imageStyle" alt="Kuro logo" />
+			<img src="/images/avatar/KurobaCat.png" :style="imageStyle" alt="Kuro logo" />
 			<span>{{name}}</span>
 		</router-link>
 		<ul class="layout-topbar-menu">

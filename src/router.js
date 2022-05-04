@@ -28,6 +28,11 @@ const routes = [
                 name: 'gameedit',
                 component: () => import('./pages/GameEdit.vue'),
                 props: true
+            },
+            {
+                path: '/gamenew',
+                name: 'gamenew',
+                component: () => import('./pages/GameNew.vue')
             }
         ]
     }

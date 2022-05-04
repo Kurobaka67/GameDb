@@ -39,6 +39,7 @@ export default class VideoGameService {
 				g.image = game.image;
 				return g;
 			} else {
+				game.id = this.nextId();
 				VideoGameService._games.push(game);
 				return game;
 			}
@@ -53,7 +54,23 @@ export default class VideoGameService {
 			return r;
 		});
 	}
+	deleteGame(game) {
+		var index = VideoGameService._games.findIndex(g => g.id == game.id);
+		return this._getAllGames().then(d => {
+			
+			d.splice(index, 1);
+		});
+	}
 	escapeRegExp(string) {
 		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+	}
+	nextId() {
+		let r = 0;
+		VideoGameService._games.map((g) => {
+			if(g.id > r){
+				r = g.id;
+			}
+		});
+		return ++r;
 	}
 }

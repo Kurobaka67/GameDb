@@ -6,7 +6,7 @@
 				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField">
 					<template #header>
 						<div class="grid grid-nogutter">
-							<div class="col-6 text-right">
+							<div class="col-5 text-right">
 								<DataViewLayoutOptions v-model="layout" />
 							</div>
 							<div class="col-3 text-right">
@@ -19,6 +19,11 @@
 								<span class="p-input-icon-left">
 								<i class="pi pi-search" />
 								<InputText type="text" v-model="textSearch" placeholder="Search" @change="search"/>
+								</span>
+							</div>
+							<div class="col-1 text-right">
+								<span class="p-input-icon-left">
+								<Button class="p-button-sm" @click="addgame"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -46,8 +51,8 @@
 						<div class="col-12 md:col-4">
 							<div class="card m-3 border-1 surface-border" @click="gotodetail(slotProps.data.id)">
 								<div class="flex align-items-center justify-content-between">
-									<div class="flex align-items-center">
-										<span class="font-semibold">{{slotProps.data.title}}</span>
+									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+										<p class="font-semibold">{{slotProps.data.title}}</p>
 									</div>
 								</div>
 								<div class="text-center">
@@ -57,9 +62,7 @@
 									<span>{{slotProps.data.publisher}}</span>
 								</div>
 								<div class="flex align-items-center justify-content-between">
-									<ul>
-										Genres:<li v-for="genre in slotProps.data.genres" :key="genre">{{genre}} </li>
-									</ul>
+									{{genres(slotProps.data)}}
 								</div>
 							</div>
 						</div>
@@ -136,6 +139,12 @@ import VideoGameService from "../service/VideoGameService";
 				else{
 					this.videoGameService.getGames().then(data => this.dataviewValue = data);
 				}
+			},
+			addgame() {
+				this.$router.push('/gamenew/');
+			},
+			genres(game) {
+				return game.genres.join(', ');
 			}
 		}
 	}

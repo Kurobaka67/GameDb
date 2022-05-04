@@ -96,6 +96,7 @@ import TriStateCheckbox from 'primevue/tristatecheckbox';
 
 import CodeHighlight from './AppCodeHighlight';
 import BlockViewer from './BlockViewer';
+import mitt from 'mitt';
 
 router.beforeEach(function(to, from, next) {
     window.scrollTo(0, 0);
@@ -106,6 +107,7 @@ const app = createApp(AppWrapper);
 app.config.devtools = true;
 app.config.performance = true;
 app.config.globalProperties.$appState = reactive({ theme: 'lara-light-indigo', darkTheme: false });
+app.config.globalProperties.eventBus = mitt();
 
 app.use(PrimeVue, { ripple: true, inputStyle: 'outlined' });
 app.use(ConfirmationService);

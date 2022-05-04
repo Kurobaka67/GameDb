@@ -5,6 +5,7 @@
             "title": "Saviors of Sapphire Wings / Stranger of Sword City Revisited",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2i7f.png",
             "rating": 69,
+            "release": "2021-03-16",
             "platforms": [
                 "PC",
                 "Nintendo Switch"
@@ -21,6 +22,12 @@
             "title": "WRC 8 FIA World Rally Championship",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2f7h.png",
             "rating": 69,
+            "release": "2015-10-08",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "Nacon",
             "genres": [
                 "Racing",
@@ -34,6 +41,12 @@
             "title": "Little Big Workshop",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co20u4.png",
             "rating": 69,
+            "release": "2019-10-17",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "HandyGames",
             "genres": [
                 "Simulation",
@@ -46,6 +59,12 @@
             "title": "Old World™",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3d3e.png",
             "rating": 69,
+            "release": "2020-05-05",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "Mohawk Games",
             "genres": [
                 "Strategy"
@@ -57,6 +76,12 @@
             "title": "AI: The Somnium Files",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1mjy.png",
             "rating": 69,
+            "release": "2019-09-17",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "Spike Chunsoft Co., Ltd.",
             "genres": [
                 "Adventure"
@@ -68,6 +93,12 @@
             "title": "Spirit of the North",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vh9.png",
             "rating": 69,
+            "release": "2019-11-13",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "Merge Games",
             "genres": [
                 "Adventure",
@@ -82,6 +113,12 @@
             "title": "Yooka-Laylee and the Impossible Lair",
             "image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2z9b.png",
             "rating": 69,
+            "release": "2019-10-07",
+            "platforms": [
+                "PC",
+                "Nintendo Switch"
+            ],
+            "description": "Yes",
             "publisher": "Team17 Digital Limited",
             "genres": [
                 "Adventure",

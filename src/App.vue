@@ -1,8 +1,10 @@
 <template>
 	<div :class="containerClass" @click="onWrapperClick">
+        <Toast />
+
         <AppTopBar @menu-toggle="onMenuToggle" />
 
-        <div class="layout-j4-container">
+        <div class="layout-main-container">
             <div class="layout-main">
                 <router-view />
             </div>
@@ -138,6 +140,12 @@ export default {
                 }
             ]
         }
+    },
+    created() {
+        this.eventBus.on('delete-game', () => {
+			this.$toast.add({severity:'info', summary:'Confirmed', detail:'Game deleted', life: 3000});
+
+        });
     },
     watch: {
         $route() {

@@ -22,12 +22,6 @@
               <InputText type="text" v-model="urlImage" size="77"/>
             </div>
             <div class="field grid">
-              <label for="release" class="col-fixed" style="width: 100px"
-                >Release :
-              </label>
-              <Calendar v-model="release" dateFormat="yy-mm-dd" />
-            </div>
-            <div class="field grid">
               <label for="platforms" class="col-fixed" style="width: 100px"
                 >Platforms :
               </label>
@@ -87,10 +81,10 @@
           <div class="col-1">
             <Knob v-model="rating" :valueColor="ratingColor" />
           </div>
-          <div class="col-11 text-right">
+          <div class="col-1">
             <Button class="p-button-sm" @click="save">Save</Button>
           </div>
-          <div class="col-1">
+          <div class="col-11 text-right">
             <Button class="p-button-sm" @click="cancel">Cancel</Button>
           </div>
         </div>
@@ -101,14 +95,22 @@
 
 <script>
 import VideoGameService from "../service/VideoGameService";
-import dayjs from "dayjs";
 
 export default {
-  props: ["id"],
   videoGameService: null,
   data() {
     return {
-      game: null,
+      game: {
+        id: 0,
+        rating: 0,
+        publsher: null,
+        urlImage: null,
+        genres: [],
+        platforms: [],
+        description: null,
+        title: null,
+        status: "AVAILABLE"
+      },
       options: ['AVAILABLE', 'UNAVAILABLE'],
       selectedGenres: null,
       allgenres: [
@@ -143,27 +145,13 @@ export default {
       urlImage: null,
       description: null,
       title: null,
-      status: "AVAILABLE",
-      release: null
+      status: "AVAILABLE"
     };
   },
   created() {
     this.videoGameService = new VideoGameService();
   },
   mounted() {
-    console.log(this.id);
-    this.videoGameService.getGameById(this.id).then((data) => {
-      this.game = data;
-      this.rating = this.game?.rating;
-      this.selectedGenres = this.game?.genres;
-      this.selectedPlatforms = this.game?.platforms;
-      this.publisher = this.game?.publisher;
-      this.urlImage = this.game?.image;
-      this.description = this.game?.description;
-      this.title = this.game?.title;
-      this.status = this.game?.status;
-      this.release = this.game?.release;
-    });
   },
   computed: {
     ratingColor() {
@@ -176,17 +164,17 @@ export default {
             this.game.description = this.description;
             this.game.image = this.urlImage;
             this.game.genres = this.selectedGenres;
+            this.game.platforms = this.selectedPlatforms;
             this.game.publisher = this.publisher;
             this.game.title = this.title;
             this.game.status = this.status;
-            this.game.release = dayjs(this.release).format('YYYY-MM-DD');
 
 			this.videoGameService.saveGame(this.game);
-      this.$router.push(`/gamedetail/${this.id}`);
+            this.$router.push('/games');
 		},
-    cancel() {
-      this.$router.push(`/gamedetail/${this.id}`);
-    }
+        cancel() {
+        this.$router.push('/games');
+        }
 	}
 };
 </script>
