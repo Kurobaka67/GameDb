@@ -5,11 +5,11 @@ export default class VideoGameService {
 		if(VideoGameService._games == null) {
 			return fetch('data/games.json').then(res => res.json()).then(d => {
 				VideoGameService._games = d.data;
-				return VideoGameService._games;
+				return [...VideoGameService._games];
 			});
 		} else {
 			return new Promise((resolve) => {
-				resolve(VideoGameService._games);
+				resolve([...VideoGameService._games]);
 			});
 		}
 	}
@@ -24,6 +24,16 @@ export default class VideoGameService {
 			} else {
 				return null;
 			}
+		});
+	}
+	getLastGamesRelease() {
+		return this._getAllGames().then(d => {
+			d.sort((g, h) => {
+				const v = new Date(g.release) > new Date(h.release)?-1:1;
+				return v;
+			});
+			d = d.slice(0, 4);
+			return d;
 		});
 	}
 	saveGame(game) {

@@ -30,7 +30,7 @@
 				</button>
 			</li>
 			<li>
-				<button class="p-link layout-topbar-button">
+				<button class="p-link layout-topbar-button" @click="gotologin">
 					<i class="pi pi-user"></i>
 					<span>Profile</span>
 				</button>
@@ -53,6 +53,9 @@ export default {
 		},
 		gotoGame() {
 			this.$router.push('/games');
+		},
+		gotologin() {
+			this.$router.push('/login');
 		}
     },
 	computed: {

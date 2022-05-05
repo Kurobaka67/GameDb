@@ -79,24 +79,6 @@ import VideoGameService from "../service/VideoGameService";
 	export default {
 		data() {
 			return {
-				picklistValue: [[
-					{name: 'San Francisco', code: 'SF'},
-					{name: 'London', code: 'LDN'},
-					{name: 'Paris', code: 'PRS'},
-					{name: 'Istanbul', code: 'IST'},
-					{name: 'Berlin', code: 'BRL'},
-					{name: 'Barcelona', code: 'BRC'},
-					{name: 'Rome', code: 'RM'},
-				],[]],
-				orderlistValue: [
-					{name: 'San Francisco', code: 'SF'},
-					{name: 'London', code: 'LDN'},
-					{name: 'Paris', code: 'PRS'},
-					{name: 'Istanbul', code: 'IST'},
-					{name: 'Berlin', code: 'BRL'},
-					{name: 'Barcelona', code: 'BRC'},
-					{name: 'Rome', code: 'RM'},
-				],
 				dataviewValue: null,
 				layout: 'grid',
 				sortKey: null,

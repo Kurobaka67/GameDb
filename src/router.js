@@ -35,6 +35,16 @@ const routes = [
                 component: () => import('./pages/GameNew.vue')
             }
         ]
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('./pages/Login.vue')
+    },
+    {
+        path: '/signon',
+        name: 'signon',
+        component: () => import('./pages/SignOn.vue')
     }
 ];
 

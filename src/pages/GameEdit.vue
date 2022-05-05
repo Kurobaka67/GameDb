@@ -1,5 +1,6 @@
 <template>
   <div class="grid">
+    <ConfirmPopup></ConfirmPopup>
     <div class="col-12">
       <div class="card">
         <div class="grid formgrid">
@@ -187,6 +188,14 @@ export default {
     cancel() {
       this.$router.push(`/gamedetail/${this.id}`);
     }
-	}
+	},
+  beforeRouteLeave (to, from , next) {
+    const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
+    if (answer) {
+      next();
+    } else {
+      next(false);
+  }
+}
 };
 </script>
