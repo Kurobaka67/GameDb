@@ -101,7 +101,6 @@
 </template>
 
 <script>
-import VideoGameService from "../service/VideoGameService";
 import dayjs from "dayjs";
 
 export default {
@@ -149,7 +148,7 @@ export default {
     };
   },
   created() {
-    this.videoGameService = new VideoGameService();
+    this.videoGameService = this.servicesFactory.getGamesService();
   },
   mounted() {
     console.log(this.id);

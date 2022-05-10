@@ -31,7 +31,6 @@
 
 <script>
 import EventBus from '@/AppEventBus';
-import VideoGameService from "../service/VideoGameService";
 
 export default {
 	data() {
@@ -43,10 +42,10 @@ export default {
 	themeChangeListener: null,
 	videoGameService: null,
 	created() {
-			this.videoGameService = new VideoGameService();
+			this.videoGameService = this.servicesFactory.getGamesService();
 	},
 	mounted() {
-		this.videoGameService.getLastGamesRelease().then(data => this.dataviewValue = data);
+		this.videoGameService.getLastGamesRelease(4).then(data => this.dataviewValue = data);
 		this.themeChangeListener = (event) => {
             if (event.dark)
                 this.applyDarkTheme();
@@ -134,7 +133,7 @@ export default {
 			this.$router.push(`/gamedetail/${id}`);
 		},
 		genres(game) {
-			return game.genres.join(', ');
+			return game.genres?.join(', ');
 		}
 	}
 }

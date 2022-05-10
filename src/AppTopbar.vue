@@ -24,16 +24,7 @@
 		</button>
 		<ul class="layout-topbar-menu hidden lg:flex origin-top">
 			<li>
-				<button class="p-link layout-topbar-button">
-					<i class="pi pi-cog"></i>
-					<span>Settings</span>
-				</button>
-			</li>
-			<li>
-				<button class="p-link layout-topbar-button" @click="gotologin">
-					<i class="pi pi-user"></i>
-					<span>Profile</span>
-				</button>
+				<Menubar :model="items" style="background-color: var(--surface-ground); border: none"/>
 			</li>
 		</ul>
 	</div>
@@ -41,6 +32,38 @@
 
 <script>
 export default {
+	data() {
+        return {
+			items: [
+				{
+					icon:'pi-menubar pi pi-cog',
+					items:[
+						{
+							label:'Local API',
+							command: this.localapi,
+						},
+						{
+							label:'IGDB API',
+							command: this.igdbapi,
+						}
+					]
+				},
+				{
+					label: this.currentUser,
+					icon:'pi-menubar pi pi-user',
+					items:[
+						{
+							label:'Profile',
+						},
+						{
+							label:'Login',
+							command: this.gotologin,
+						}
+					]
+				}
+			]
+		}
+	},
     methods: {
         onMenuToggle(event) {
             this.$emit('menu-toggle', event);
@@ -56,6 +79,14 @@ export default {
 		},
 		gotologin() {
 			this.$router.push('/login');
+		},
+		localapi() {
+			this.servicesFactory.setType("local");
+			this.$router.push('/');
+		},
+		igdbapi() {
+			this.servicesFactory.setType("igdb");
+			this.$router.push('/');
 		}
     },
 	computed: {
@@ -82,7 +113,16 @@ export default {
 			} else {
 				return "Shiro";
 			}
+		},
+		currentUser() {
+			return this.servicesFactory.getUsersService().getCurrentUser()?.identifiant;
 		}
 	}
 }
 </script>
+
+<style>
+.pi-menubar{
+	font-size: 1.5em
+}
+</style>

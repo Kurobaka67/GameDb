@@ -57,7 +57,7 @@ export default {
             return 'dark';
         }
     },
-    method: {
+    methods: {
         gotohome() {
             this.$router.push('/');
         },

@@ -97,6 +97,8 @@ import TriStateCheckbox from 'primevue/tristatecheckbox';
 import CodeHighlight from './AppCodeHighlight';
 import BlockViewer from './BlockViewer';
 import mitt from 'mitt';
+import ServicesFactory from './service/ServicesFactory'
+import axios from "axios";
 
 router.beforeEach(function(to, from, next) {
     window.scrollTo(0, 0);
@@ -108,6 +110,10 @@ app.config.devtools = true;
 app.config.performance = true;
 app.config.globalProperties.$appState = reactive({ theme: 'lara-light-indigo', darkTheme: false });
 app.config.globalProperties.eventBus = mitt();
+app.config.globalProperties.$http = axios;
+app.config.globalProperties.servicesFactory = new ServicesFactory("local", {http: axios});
+
+
 
 app.use(PrimeVue, { ripple: true, inputStyle: 'outlined' });
 app.use(ConfirmationService);

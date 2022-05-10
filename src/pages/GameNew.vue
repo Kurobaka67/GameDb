@@ -94,7 +94,6 @@
 </template>
 
 <script>
-import VideoGameService from "../service/VideoGameService";
 
 export default {
   videoGameService: null,
@@ -149,7 +148,7 @@ export default {
     };
   },
   created() {
-    this.videoGameService = new VideoGameService();
+    this.videoGameService = this.servicesFactory.getGamesService();
   },
   mounted() {
   },

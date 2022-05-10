@@ -3,7 +3,7 @@
 		<div class="col-12">
 			<div class="card">
 				<h5>Games</h5>
-				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField">
+				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount" :sortOrder="sortOrder" :sortField="sortField">
 					<template #header>
 						<div class="grid grid-nogutter">
 							<div class="col-5 text-right">
@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import VideoGameService from "../service/VideoGameService";
 
 	export default {
 		data() {
@@ -85,15 +84,17 @@ import VideoGameService from "../service/VideoGameService";
 				sortOrder: null,
 				sortField: null,
 				textSearch: null,
-				rating: null
+				rating: null,
+				gamescount: 0,
 			}
 		},
 		videoGameService: null,
 		created() {
-			this.videoGameService = new VideoGameService();
+			this.videoGameService = this.servicesFactory.getGamesService();
 		},
 		mounted() {
-			this.videoGameService.getGames().then(data => this.dataviewValue = data);
+			this.videoGameService.getGamesCount().then(data => this.gamescount = data);
+			this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
 		},
 		methods: {
 			onSortChange(event){
@@ -126,7 +127,10 @@ import VideoGameService from "../service/VideoGameService";
 				this.$router.push('/gamenew/');
 			},
 			genres(game) {
-				return game.genres.join(', ');
+				return game.genres?.join(', ');
+			},
+			onPage(event){
+				this.videoGameService.getGames(event.rows, event.first).then(data => this.dataviewValue = data);
 			}
 		}
 	}

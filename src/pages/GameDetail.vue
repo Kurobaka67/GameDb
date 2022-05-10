@@ -37,13 +37,12 @@
 
 <script>
 import dayjs from 'dayjs';
-import VideoGameService from "../service/VideoGameService";
 
 export default {
     props: ['id'],
 	videoGameService: null,
 	created() {
-		this.videoGameService = new VideoGameService();
+		this.videoGameService = this.servicesFactory.getGamesService();
 	},
 	data() {
 		return {
@@ -58,10 +57,10 @@ export default {
 			return this.game?.rating>50?'green':'orange';
 		},
 		genres() {
-			return this.game?.genres.join(', ');
+			return this.game?.genres?.join(', ');
 		},
 		platforms() {
-			return this.game?.platforms.join(', ');
+			return this.game?.platforms?.join(', ');
 		},
 		release() {
 			return dayjs(this.game?.release).format('MMM DD, YYYY')
