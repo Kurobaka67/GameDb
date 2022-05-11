@@ -54,6 +54,7 @@ export default {
     },
 	computed : {
 		ratingColor() {
+			console.log(this.game?.release);
 			return this.game?.rating>50?'green':'orange';
 		},
 		genres() {
@@ -63,7 +64,8 @@ export default {
 			return this.game?.platforms?.join(', ');
 		},
 		release() {
-			return dayjs(this.game?.release).format('MMM DD, YYYY')
+			const t = new Date(this.game?.release*1000);
+			return dayjs(t).format('MMM DD, YYYY')
 		}
 	},
 	methods: {

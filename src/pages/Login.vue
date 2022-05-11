@@ -1,5 +1,6 @@
 <template>
     <div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+        <Toast />
         <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
             <div class="col-12 mt-5 xl:mt-0 text-center">
                 <img src="/images/avatar/KurobaCat.png" alt="Kuro logo" class="mb-5" style="width:81px; height:60px;">
@@ -30,7 +31,7 @@
                             <p>You don't have an account ?</p>
                             <Button label="Sign on" @click="signon"></Button>
                         </div>
-                        <Button label="Sign In" class="w-full p-3 text-xl"></button>
+                        <Button label="Sign In" class="w-full p-3 text-xl" @click="login"></button>
                         <div class="col-7 text-right">
                             <Button label="Home" @click="gotohome"></button>
                         </div>
@@ -48,7 +49,8 @@ export default {
         return {
             email: '',
             password: '',
-            checked: false
+            checked: false,
+            user: null,
         }
     },
     computed: {
@@ -63,6 +65,19 @@ export default {
         },
         signon() {
             this.$router.push('/signon');
+        },
+        login() {
+            this.servicesFactory.getUsersService().login(this.email, this.password).then(data => {
+                this.user = data;
+                if(this.user){
+                    sessionStorage.setItem('user', this.user);
+                    this.$router.push('/');
+                }
+                else {
+                    this.$toast.add({severity:'info', summary:'Failed', detail:'Wrong password or email', life: 3000});
+                }
+            });
+            
         }
     }
 }

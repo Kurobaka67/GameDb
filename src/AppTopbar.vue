@@ -24,13 +24,14 @@
 		</button>
 		<ul class="layout-topbar-menu hidden lg:flex origin-top">
 			<li>
-				<Menubar :model="items" style="background-color: var(--surface-ground); border: none"/>
+				<Menubar :model="allItems" style="background-color: var(--surface-ground); border: none"/>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
+import { reactive } from "vue";
 export default {
 	data() {
         return {
@@ -64,6 +65,11 @@ export default {
 			]
 		}
 	},
+	created() {
+		if(sessionStorage.getItem('type')){
+			this.servicesFactory.setType(sessionStorage.getItem('type'));
+		}
+	},
     methods: {
         onMenuToggle(event) {
             this.$emit('menu-toggle', event);
@@ -80,13 +86,18 @@ export default {
 		gotologin() {
 			this.$router.push('/login');
 		},
+		logout() {
+			localStorage.removeItem('user');
+			sessionStorage.removeItem('user');
+			this.$forceUpdate();
+		},
 		localapi() {
-			this.servicesFactory.setType("local");
-			this.$router.push('/');
+			sessionStorage.setItem('type', 'local')
+			window.location.reload(false)
 		},
 		igdbapi() {
-			this.servicesFactory.setType("igdb");
-			this.$router.push('/');
+			sessionStorage.setItem('type', 'igdb')
+			window.location.reload(false)
 		}
     },
 	computed: {
@@ -115,7 +126,69 @@ export default {
 			}
 		},
 		currentUser() {
-			return this.servicesFactory.getUsersService().getCurrentUser()?.identifiant;
+			return sessionStorage.getItem('user')?.identifiant;
+		},
+		allItems() {
+			if(sessionStorage.getItem('user')){
+				return [
+					{
+						icon:'pi-menubar pi pi-cog',
+						items:[
+							{
+								label:'Local API',
+								command: this.localapi,
+							},
+							{
+								label:'IGDB API',
+								command: this.igdbapi,
+							}
+						]
+					},
+					{
+						label: this.currentUser,
+						icon:'pi-menubar pi pi-user',
+						items:[
+							{
+								label:'Profile',
+							},
+							{
+								label:'Logout',
+								command: this.logout,
+							}
+						]
+					}
+				].map((i) => reactive(i))
+			}
+			else {
+				return [
+					{
+						icon:'pi-menubar pi pi-cog',
+						items:[
+							{
+								label:'Local API',
+								command: this.localapi,
+							},
+							{
+								label:'IGDB API',
+								command: this.igdbapi,
+							}
+						]
+					},
+					{
+						label: this.currentUser,
+						icon:'pi-menubar pi pi-user',
+						items:[
+							{
+								label:'Profile',
+							},
+							{
+								label:'Login',
+								command: this.gotologin,
+							}
+						]
+					}
+				].map((i) => reactive(i))
+			}
 		}
 	}
 }
