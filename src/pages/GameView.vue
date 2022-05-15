@@ -93,7 +93,12 @@
 			this.videoGameService = this.servicesFactory.getGamesService();
 		},
 		mounted() {
-			this.videoGameService.getGamesCount().then(data => this.gamescount = data);
+			if(this.textSearch || this.rating){
+				this.videoGameService.getGamesCount(this.textSearch).then(data => this.gamescount = data);
+			}
+			else{
+				this.videoGameService.getGamesCount().then(data => this.gamescount = data);
+			}
 			this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
 		},
 		methods: {
@@ -117,10 +122,10 @@
 			},
 			search() {
 				if(this.textSearch || this.rating){
-					this.videoGameService?.searchGames(this.textSearch, this.rating).then(data => this.dataviewValue = data);
+					this.videoGameService?.searchGames(9, 0, this.textSearch, this.rating).then(data => this.dataviewValue = data);
 				}
 				else{
-					this.videoGameService.getGames().then(data => this.dataviewValue = data);
+					this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
 				}
 			},
 			addgame() {
@@ -130,7 +135,12 @@
 				return game.genres?.join(', ');
 			},
 			onPage(event){
-				this.videoGameService.getGames(event.rows, event.first).then(data => this.dataviewValue = data);
+				if(this.textSearch || this.rating){
+					this.videoGameService?.searchGames(event.rows, event.first, this.textSearch, this.rating).then(data => this.dataviewValue = data);
+				}
+				else{
+					this.videoGameService.getGames(event.rows, event.first).then(data => this.dataviewValue = data);
+				}
 			}
 		}
 	}

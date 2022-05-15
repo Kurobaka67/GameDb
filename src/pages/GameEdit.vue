@@ -151,7 +151,6 @@ export default {
     this.videoGameService = this.servicesFactory.getGamesService();
   },
   mounted() {
-    console.log(this.id);
     this.videoGameService.getGameById(this.id).then((data) => {
       this.game = data;
       this.rating = this.game?.rating;
@@ -189,12 +188,24 @@ export default {
     }
 	},
   beforeRouteLeave (to, from , next) {
-    const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
-    if (answer) {
+      if(this.game.rating != this.rating ||
+        this.game.description != this.description ||
+        this.game.image != this.urlImage ||
+        this.game.genres != this.selectedGenres ||
+        this.game.publisher != this.publisher ||
+        this.game.title != this.title ||
+        this.game.status != this.status ||
+        this.game.release != dayjs(this.release).format('YYYY-MM-DD')){
+          const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
+          if (answer) {
+            next();
+          } else {
+            next(false);
+          }
+    }
+    else {
       next();
-    } else {
-      next(false);
-  }
+    }
 }
 };
 </script>

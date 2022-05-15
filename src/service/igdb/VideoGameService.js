@@ -22,7 +22,7 @@ export default class VideoGameService {
 			const data = response.data.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url?d.cover?.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.name),
 				rating: d.aggregated_rating,
@@ -37,22 +37,41 @@ export default class VideoGameService {
 			console.error(err);
 		});
 	}
-	getGamesCount() {
-		return this.http({
-			method: 'post',
-			url: VideoGameService.proxy + 'https://api.igdb.com/v4/games/count',
-			headers: {
-				'Accept': 'application/json',
-				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
-				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
-			}
-		})
-		.then(response => {
-			return response.data.count;
-		})
-		.catch(err => {
-			console.error(err);
-		});
+	getGamesCount(text) {
+		if(text){
+			return this.http({
+				method: 'post',
+				url: VideoGameService.proxy + 'https://api.igdb.com/v4/games/count',
+				headers: {
+					'Accept': 'application/json',
+					'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
+					'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
+				},
+				data: `search "${text}"`
+			})
+			.then(response => {
+				return response.data.count;
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}else {
+			return this.http({
+				method: 'post',
+				url: VideoGameService.proxy + 'https://api.igdb.com/v4/games/count',
+				headers: {
+					'Accept': 'application/json',
+					'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
+					'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
+				}
+			})
+			.then(response => {
+				return response.data.count;
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
 	}
 	getGameById(id) {
 		return this.http({
@@ -75,7 +94,7 @@ export default class VideoGameService {
 				rating: d.aggregated_rating,
 				description: d.summary,
 				publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
-				release: d.first_release_date,
+				release: d.first_release_date*1000,
 				status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});
 			return data[0];
@@ -101,7 +120,7 @@ export default class VideoGameService {
 			var data = response.data.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url,
+				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.name),
 				rating: d.aggregated_rating,
@@ -140,13 +159,35 @@ export default class VideoGameService {
 			}
 		});
 	}
-	searchGames(pageSize, pageOffset, textSearch, rating) {
-		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
-		return this._getAllGames().then(d => {
-			const r = d.filter((g) =>{
-				return (!re || (re.test(g.title) || re.test(g.genres))) && (!rating || (g.rating > rating))
-			});
-			return r;
+	searchGames(pageSize, pageOffset, textSearch) {
+		//const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
+		return this.http({
+			method: 'post',
+			url: VideoGameService.proxy + 'https://api.igdb.com/v4/games',
+			headers: {
+				'Accept': 'application/json',
+				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
+				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
+			},
+			data: `fields name,platforms.name,aggregated_rating,genres.name,summary,involved_companies.company.name,involved_companies.publisher,release_dates.human,first_release_date,cover.url,status; search "${textSearch}"; limit ${pageSize}; offset ${pageOffset};`
+		})
+		.then(response => {
+			var data = response.data.map((d) => { return {
+				id: d.id,
+				title: d.name,
+				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				genres: d.genres?.map((g) => g.name),
+				platforms: d.platforms?.map((p) => p.name),
+				rating: d.aggregated_rating,
+				description: d.summary,
+				publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
+				release: d.first_release_date,
+				status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
+			}});
+			return data;
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
 	deleteGame(game) {

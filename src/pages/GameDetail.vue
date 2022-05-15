@@ -64,7 +64,7 @@ export default {
 			return this.game?.platforms?.join(', ');
 		},
 		release() {
-			const t = new Date(this.game?.release*1000);
+			const t = new Date(this.game?.release);
 			return dayjs(t).format('MMM DD, YYYY')
 		}
 	},

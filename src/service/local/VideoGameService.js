@@ -58,7 +58,8 @@ export default class VideoGameService {
 			}
 		});
 	}
-	searchGames(textSearch, rating) {
+	searchGames(pageSize, pageOffset, textSearch, rating) {
+		console.log(pageSize, pageOffset);
 		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
 		return this._getAllGames().then(d => {
 			const r = d.filter((g) =>{

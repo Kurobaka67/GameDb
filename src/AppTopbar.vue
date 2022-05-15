@@ -1,18 +1,18 @@
 <template>
 	<div class="layout-topbar" :style="topbarStyle">
 		<router-link to="/" class="layout-topbar-logo">
-			<img src="/images/avatar/KurobaCat.png" :style="imageStyle" alt="Kuro logo" />
+			<img src="images/avatar/KurobaCat.png" :style="imageStyle" alt="Kuro logo" />
 			<span>{{name}}</span>
 		</router-link>
 		<ul class="layout-topbar-menu">
 			<li>
 				<button class="p-link layout-topbar-button" @click="gotoGame">
-					<p>Game</p>
+					<p>Games</p>
 				</button>
 			</li>
 			<li>
-				<button class="p-link layout-topbar-button">
-					<p>Console</p>
+				<button class="p-link layout-topbar-button" @click="gotoPlatforms">
+					<p>Platforms</p>
 				</button>
 			</li>
 		</ul>
@@ -46,6 +46,10 @@ export default {
 						{
 							label:'IGDB API',
 							command: this.igdbapi,
+						},
+						{
+							label:'RAWG API',
+							command: this.rawgapi,
 						}
 					]
 				},
@@ -83,21 +87,28 @@ export default {
 		gotoGame() {
 			this.$router.push('/games');
 		},
+		gotoPlatforms() {
+			this.$router.push('/platforms');
+		},
 		gotologin() {
 			this.$router.push('/login');
 		},
 		logout() {
 			localStorage.removeItem('user');
 			sessionStorage.removeItem('user');
-			this.$forceUpdate();
+			window.location.reload(false);
 		},
 		localapi() {
-			sessionStorage.setItem('type', 'local')
-			window.location.reload(false)
+			sessionStorage.setItem('type', 'local');
+			window.location.reload(false);
 		},
 		igdbapi() {
-			sessionStorage.setItem('type', 'igdb')
-			window.location.reload(false)
+			sessionStorage.setItem('type', 'igdb');
+			window.location.reload(false);
+		},
+		rawgapi(){
+			sessionStorage.setItem('type', 'rawg');
+			window.location.reload(false);
 		}
     },
 	computed: {
@@ -126,7 +137,7 @@ export default {
 			}
 		},
 		currentUser() {
-			return sessionStorage.getItem('user')?.identifiant;
+			return sessionStorage.getItem('user');
 		},
 		allItems() {
 			if(sessionStorage.getItem('user')){
@@ -141,6 +152,10 @@ export default {
 							{
 								label:'IGDB API',
 								command: this.igdbapi,
+							},
+							{
+								label:'RAWG API',
+								command: this.rawgapi,
 							}
 						]
 					},
@@ -171,6 +186,10 @@ export default {
 							{
 								label:'IGDB API',
 								command: this.igdbapi,
+							},
+							{
+								label:'RAWG API',
+								command: this.rawgapi,
 							}
 						]
 					},

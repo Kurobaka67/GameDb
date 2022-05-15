@@ -34,6 +34,12 @@ const routes = [
                 name: 'gamenew',
                 component: () => import('./pages/GameNew.vue')
             }
+            ,
+            {
+                path: '/platforms',
+                name: 'platforms',
+                component: () => import('./pages/PlatformsView.vue')
+            }
         ]
     },
     {

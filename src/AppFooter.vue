@@ -1,8 +1,6 @@
 <template>
 	<div class="layout-footer">
-		<img alt="Logo" :src="footerImage()" height="20" class="mr-2" />
-		by
-		<span class="font-medium ml-2">PrimeVue</span>
+		<span>Source: <a href="https://rawg.io/apidocs">RAWG Video Games Database API</a></span>
 	</div>
 </template>
 

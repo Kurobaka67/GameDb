@@ -2,7 +2,7 @@
     "data": [
         {
             "id": 1,
-            "identidiant": "Jonathan",
+            "identifiant": "Jonathan",
             "email": "jonathan@game.com",
             "password": "189F40034BE7A199F1FA9891668EE3AB6049F82D38C68BE70F596EAB2E1857B7",
             "role": "Admin",
@@ -10,7 +10,7 @@
         },
         {
             "id": 2,
-            "identidiant": "Yves",
+            "identifiant": "Yves",
             "email": "yves@game.com",
             "password": "A1FCE4363854FF888CFF4B8E7875D600C2682390412A8CF79B37D0B11148B0FA",
             "role": "Moderator",
@@ -18,7 +18,7 @@
         },
         {
             "id": 3,
-            "identidiant": "Héloïse",
+            "identifiant": "Héloïse",
             "email": "heloise@game.com",
             "password": "AAA9402664F1A41F40EBBC52C9993EB66AEB366602958FDFAA283B71E64DB123",
             "role": "Guest",

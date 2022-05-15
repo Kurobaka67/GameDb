@@ -1,9 +1,13 @@
 <template>
 	<div class="grid">
-		<div>
+		<div class="col-12">
+			<h2>{{message}}</h2>
 		</div>
-		<div>
-			<DataView :value="dataviewValue" :layout="layout" :paginator="false">
+		<div class="col-12">
+			<DataView :value="gameviewValue" :layout="layout" :paginator="false">
+					<template #header>
+						<h3>Latest Games</h3>
+					</template>
 					<template #grid="slotProps">
 						<div class="col-12 md:col-3">
 							<div class="card m-3 border-1 surface-border" @click="gotodetail(slotProps.data.id)">
@@ -25,6 +29,25 @@
 						</div>
 					</template>
 				</DataView>
+				<DataView :value="platformsviewValue" :layout="layout" :paginator="false">
+					<template #header>
+						<h3>Latest Platforms</h3>
+					</template>
+					<template #grid="slotProps">
+						<div class="col-12 md:col-3">
+							<div class="card m-3 border-1 surface-border">
+								<div class="flex align-items-center justify-content-between">
+									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+										<p class="font-semibold">{{slotProps.data.name}}</p>
+									</div>
+								</div>
+								<div class="text-center">
+									<img :src="slotProps.data.image" :alt="slotProps.data.name" width="150"/>
+								</div>
+							</div>
+						</div>
+					</template>
+				</DataView>
 		</div>
 	</div>
 </template>
@@ -35,17 +58,21 @@ import EventBus from '@/AppEventBus';
 export default {
 	data() {
 			return {
-				dataviewValue: null,
+				gameviewValue: null,
+				platformsviewValue: null,
 				layout: 'grid'
 			}
 	},
 	themeChangeListener: null,
 	videoGameService: null,
+	platformService: null,
 	created() {
 			this.videoGameService = this.servicesFactory.getGamesService();
+			this.platformService = this.servicesFactory.getPlatformsService();
 	},
 	mounted() {
-		this.videoGameService.getLastGamesRelease(4).then(data => this.dataviewValue = data);
+		this.videoGameService.getLastGamesRelease(4).then(data => this.gameviewValue = data);
+		this.platformService.getLastPlatformsRelease(4).then(data => this.platformsviewValue = data);
 		this.themeChangeListener = (event) => {
             if (event.dark)
                 this.applyDarkTheme();
@@ -135,6 +162,18 @@ export default {
 		genres(game) {
 			return game.genres?.join(', ');
 		}
-	}
+	},
+	computed: {
+        message() {
+            if (sessionStorage.getItem('user')){
+				console.log(sessionStorage.getItem('user'));
+				return "Hi " + sessionStorage.getItem('user');
+			} 
+			else {
+				return "Welcome to the games database";
+			}
+            
+        }
+    },
 }
 </script>
