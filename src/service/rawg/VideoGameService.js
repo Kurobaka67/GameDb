@@ -30,17 +30,30 @@ export default class VideoGameService {
 			console.error(err);
 		});
 	}
-	getGamesCount() {
-		return this.http({
-			method: 'get',
-			url: 'https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9'
-		})
-		.then(response => {
-			return response.data.count;
-		})
-		.catch(err => {
-			console.error(err);
-		});
+	getGamesCount(text) {
+		if(text){
+			return this.http({
+				method: 'get',
+				url: `https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9&search=${text}`
+			})
+			.then(response => {
+				return response.data.count;
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}else {
+			return this.http({
+				method: 'get',
+				url: 'https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9'
+			})
+			.then(response => {
+				return response.data.count;
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
 	}
 	getGameById(id) {
 		return this.http({
@@ -66,10 +79,9 @@ export default class VideoGameService {
 		});
 	}
 	getLastGamesRelease(pageSize) {
-		//const now = Math.trunc(Date.now()/1000);
 		return this.http({
 			method: 'get',
-			url: `https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}`
+			url: `https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}&ordering=-released`
 		})
 		.then(response => {
 			var data = response.data.results.map((d) => { return {
@@ -84,11 +96,6 @@ export default class VideoGameService {
 				release: d.released,
 				//status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});
-			data.sort((g, h) => {
-				const v = new Date(g.release) > new Date(h.release)?-1:1;
-				return v;
-			});
-			data = data.slice(0, 4);
 			return data;
 		})
 		.catch(err => {
@@ -115,33 +122,24 @@ export default class VideoGameService {
 		});
 	}
 	searchGames(pageSize, pageOffset, textSearch) {
-		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
+		//const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
 		return this.http({
-			method: 'post',
-			url: VideoGameService.proxy + 'https://api.igdb.com/v4/games',
-			headers: {
-				'Accept': 'application/json',
-				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
-				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
-			},
-			data: "fields name,platforms.name,aggregated_rating,genres.name,summary,involved_companies.company.name,involved_companies.publisher,release_dates.human,first_release_date,cover.url,status; limit "+pageSize+"; offset "+pageOffset+";"
+			method: 'get',
+			url: `https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}&page=${pageOffset/9+1}&search=${textSearch}`
 		})
 		.then(response => {
-			var data = response.data.map((d) => { return {
+			var data = response.data.results.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.background_image?d.background_image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
-				platforms: d.platforms?.map((p) => p.name),
-				rating: d.aggregated_rating,
-				description: d.summary,
-				publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
-				release: d.first_release_date,
-				status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
+				platforms: d.platforms?.map((p) => p.platform.name),
+				//rating: d.ratings[0].percent,
+				//description: d.summary,
+				//publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
+				release: d.released,
+				//status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});
-			data = data.filter((g) => {
-				return (!re || (re.test(g.title) || re.test(g.genres)));
-			});
 			return data;
 		})
 		.catch(err => {

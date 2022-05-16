@@ -100,15 +100,33 @@ export default {
 		},
 		localapi() {
 			sessionStorage.setItem('type', 'local');
-			window.location.reload(false);
+			this.servicesFactory.setType(sessionStorage.getItem('type'));
+			if(this.$router.currentRoute.value.fullPath == '/'){
+				window.location.reload(false);
+			}
+			else{
+				this.$router.push('/');
+			}
 		},
 		igdbapi() {
 			sessionStorage.setItem('type', 'igdb');
-			window.location.reload(false);
+			this.servicesFactory.setType(sessionStorage.getItem('type'));
+			if(this.$router.currentRoute.value.fullPath == '/'){
+				window.location.reload(false);
+			}
+			else{
+				this.$router.push('/');
+			}
 		},
 		rawgapi(){
 			sessionStorage.setItem('type', 'rawg');
-			window.location.reload(false);
+			this.servicesFactory.setType(sessionStorage.getItem('type'));
+			if(this.$router.currentRoute.value.fullPath == '/'){
+				window.location.reload(false);
+			}
+			else{
+				this.$router.push('/');
+			}
 		}
     },
 	computed: {

@@ -70,8 +70,8 @@ export default class VideoGameService {
 	}
 	deleteGame(game) {
 		var index = VideoGameService._games.findIndex(g => g.id == game.id);
+		console.log(index);
 		return this._getAllGames().then(d => {
-			
 			d.splice(index, 1);
 		});
 	}

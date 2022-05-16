@@ -3,7 +3,7 @@
 		<div class="col-12">
 			<div class="card">
 				<h5>Games</h5>
-				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount" :sortOrder="sortOrder" :sortField="sortField">
+				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount">
 					<template #header>
 						<div class="grid grid-nogutter">
 							<div class="col-5 text-right">
@@ -93,12 +93,7 @@
 			this.videoGameService = this.servicesFactory.getGamesService();
 		},
 		mounted() {
-			if(this.textSearch || this.rating){
-				this.videoGameService.getGamesCount(this.textSearch).then(data => this.gamescount = data);
-			}
-			else{
-				this.videoGameService.getGamesCount().then(data => this.gamescount = data);
-			}
+			this.videoGameService.getGamesCount().then(data => this.gamescount = data);
 			this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
 		},
 		methods: {
@@ -123,10 +118,13 @@
 			search() {
 				if(this.textSearch || this.rating){
 					this.videoGameService?.searchGames(9, 0, this.textSearch, this.rating).then(data => this.dataviewValue = data);
+					this.videoGameService.getGamesCount(this.textSearch).then(data => this.gamescount = data);
 				}
 				else{
 					this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
+					this.videoGameService.getGamesCount().then(data => this.gamescount = data);
 				}
+				console.log(this.gamescount);
 			},
 			addgame() {
 				this.$router.push('/gamenew/');
@@ -141,6 +139,10 @@
 				else{
 					this.videoGameService.getGames(event.rows, event.first).then(data => this.dataviewValue = data);
 				}
+			},
+			numberPages() {
+				console.log(this.gamescount);
+				return this.gamescount;
 			}
 		}
 	}

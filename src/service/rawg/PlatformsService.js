@@ -1,60 +1,74 @@
+//import axios from "axios";
 
 export default class PlatformsService {
-	static _platforms = null;
 
-	_getAllPlatforms() {
-		if(PlatformsService._platforms == null) {
-			return fetch('data/platforms.json').then(res => res.json()).then(d => {
-				PlatformsService._platforms = d.data;
-				PlatformsService._platforms.image = d.data.image?d.data.image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api";
-				return [...PlatformsService._platforms];
-			});
-		} else {
-			return new Promise((resolve) => {
-				resolve([...PlatformsService._platforms]);
-			});
-		}
+	constructor(http){
+		this.http = http;
 	}
-    getPlatforms() {
-		return this._getAllPlatforms();
-	}
-	getPlatformsCount() {
-		return this._getAllPlatforms().then(d => d.length);
-	}
-	getPlatformById(id) {
+
+    getPlatforms(pageSize, pageOffset) {
 		return this.http({
-			method: 'post',
-			url: PlatformsService.proxy + 'https://api.igdb.com/v4/games',
-			headers: {
-				'Accept': 'application/json',
-				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
-				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
-			},
-			data: "fields name,platforms.name,aggregated_rating,genres.name,summary,involved_companies.company.name,involved_companies.publisher,release_dates.human,first_release_date,cover.url,status; limit 1; where id = "+id+";"
+			method: 'get',
+			url: `https://rawg.io/api/platforms?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}&page=${pageOffset/9+1}`
 		})
 		.then(response => {
-			const data = response.data.map((d) => { return {
+			const data = response.data.results.map((d) => { return {
 				id: d.id,
-				title: d.name,
-				image: d.cover?.url,
-				genres: d.genres?.map((g) => g.name),
-				platforms: d.platforms?.map((p) => p.name),
-				rating: d.aggregated_rating,
-				description: d.summary,
-				publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
-				release: d.first_release_date,
-				status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
+				name: d.name,
+				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				date: d.year_start
 			}});
-			return data[0];
+			return data;
 		})
 		.catch(err => {
 			console.error(err);
 		});
 	}
-	getLastPlatformsRelease() {
-		return this._getAllPlatforms().then(d => {
-			d = d.slice(0, 4);
-			return d;
+	getPlatformsCount() {
+		return this.http({
+			method: 'get',
+			url: `https://rawg.io/api/platforms?key=d511caa2f28d4c31a40efcfce5d9a5d9`
+		})
+		.then(response => {
+			return response.data.count;
+		})
+		.catch(err => {
+			console.error(err);
+		});
+	}
+	getPlatformById(id) {
+		return this.http({
+			method: 'get',
+			url: `https://rawg.io/api/platforms/${id}?key=d511caa2f28d4c31a40efcfce5d9a5d9`
+		})
+		.then(response => {
+			return {
+				id: response.data.id,
+				name: response.data.name,
+				image: response.data.image_background?response.data.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				date: response.data.year_start,
+				description: response.data.description
+		}})
+		.catch(err => {
+			console.error(err);
+		});
+	}
+	getLastPlatformsRelease(pageSize) {
+		return this.http({
+			method: 'get',
+			url: `https://rawg.io/api/platforms?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}&ordering=-year_start`
+		})
+		.then(response => {
+			var data = response.data.results.map((d) => { return {
+				id: d.id,
+				name: d.name,
+				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				date: d.year_start
+			}});
+			return data;
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
 	savePlatform(platform) {

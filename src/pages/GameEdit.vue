@@ -175,6 +175,7 @@ export default {
             this.game.description = this.description;
             this.game.image = this.urlImage;
             this.game.genres = this.selectedGenres;
+            this.game.platforms = this.selectedPlatforms;
             this.game.publisher = this.publisher;
             this.game.title = this.title;
             this.game.status = this.status;
@@ -192,6 +193,7 @@ export default {
         this.game.description != this.description ||
         this.game.image != this.urlImage ||
         this.game.genres != this.selectedGenres ||
+        this.game.platforms != this.selectedPlatforms ||
         this.game.publisher != this.publisher ||
         this.game.title != this.title ||
         this.game.status != this.status ||
