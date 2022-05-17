@@ -6,12 +6,12 @@
 				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount">
 					<template #header>
 						<div class="grid grid-nogutter">
-							<div class="col-5 text-right">
+							<div class="col-7 text-center">
 								<DataViewLayoutOptions v-model="layout" />
 							</div>
-							<div class="col-3 text-right">
+							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<label for="rating">Rating min : {{rating}}</label>
+								<label for="rating">Rating: {{rating?rating:0}}</label>
 								<Slider v-model="rating" @change="search"/>
 								</span>
 							</div>
@@ -56,7 +56,10 @@
 									</div>
 								</div>
 								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150"/>
+									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150" style="height: 100px !important;"/>
+								</div>
+								<div class="flex align-items-center justify-content-between">
+									<span>Rating : {{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
 								</div>
 								<div class="flex align-items-center justify-content-between">
 									<span>{{slotProps.data.publisher}}</span>

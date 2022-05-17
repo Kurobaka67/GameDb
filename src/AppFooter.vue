@@ -1,6 +1,7 @@
 <template>
 	<div class="layout-footer">
-		<span>Source: <a href="https://rawg.io/apidocs">RAWG Video Games Database API</a></span>
+		<span v-if="getTypeAPI() == 'rawg'">Source: <a href="https://rawg.io/apidocs">RAWG Video Games Database API</a></span>
+		<a v-if="getTypeAPI() == 'igdb'" href="https://cors-anywhere.herokuapp.com/corsdemo">Click here to make the api work</a>
 	</div>
 </template>
 
@@ -10,6 +11,9 @@
 		methods: {
 			footerImage() {
 				return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
+			},
+			getTypeAPI() {
+				return sessionStorage.getItem('type');
 			}
 		},
 		computed: {

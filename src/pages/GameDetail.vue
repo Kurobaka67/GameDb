@@ -21,10 +21,10 @@
 						<Knob :modelValue="game?.rating" :valueColor="ratingColor"/>
 					</div>
 					<div class="col-10 text-right">
-						<Button label="Edit" class="p-button-sm" @click="edit" />
+						<Button label="Edit" class="p-button-sm" @click="edit" v-if="getCurrentUser() != 'Guest' && getCurrentUser()"/>
 					</div>
 					<div class="col-1">
-						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)"></Button>
+						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="getCurrentUser() != 'Guest' && getCurrentUser()"></Button>
 					</div>
 					<div class="col-1">
 						<Button label="Close" class="p-button-sm" @click="close" />
@@ -41,8 +41,10 @@ import dayjs from 'dayjs';
 export default {
     props: ['id'],
 	videoGameService: null,
+	userService: null,
 	created() {
 		this.videoGameService = this.servicesFactory.getGamesService();
+		this.userService = this.servicesFactory.getUsersService();
 	},
 	data() {
 		return {
@@ -54,7 +56,6 @@ export default {
     },
 	computed : {
 		ratingColor() {
-			console.log(this.game?.release);
 			return this.game?.rating>50?'green':'orange';
 		},
 		genres() {
@@ -90,7 +91,10 @@ export default {
                 reject: () => {
                 }
             });
-        }
+        },
+		getCurrentUser() {
+			return sessionStorage.getItem('role');
+		}
 	}
 }
 </script>

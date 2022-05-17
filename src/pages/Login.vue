@@ -70,8 +70,8 @@ export default {
             this.servicesFactory.getUsersService().login(this.email, this.password).then(data => {
                 this.user = data;
                 if(this.user){
-                    sessionStorage.setItem('user', data.identifiant);
-                    console.log(data);
+                    sessionStorage.setItem('user', data?.identifiant);
+                    sessionStorage.setItem('role', data?.role);
                     this.$router.push('/');
                 }
                 else {

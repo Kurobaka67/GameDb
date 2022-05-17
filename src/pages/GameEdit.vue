@@ -204,10 +204,10 @@ export default {
           } else {
             next(false);
           }
-    }
-    else {
-      next();
-    }
+      }
+      else {
+        next();
+      }
 }
 };
 </script>
