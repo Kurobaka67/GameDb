@@ -73,6 +73,7 @@ export default class VideoGameService {
 		console.log(index);
 		return this._getAllGames().then(d => {
 			d.splice(index, 1);
+			VideoGameService._games = d;
 		});
 	}
 	escapeRegExp(string) {

@@ -18,7 +18,7 @@
 							<div class="col-3 text-right">
 								<span class="p-input-icon-left">
 								<i class="pi pi-search" />
-								<InputText type="text" v-model="textSearch" placeholder="Search" @change="search"/>
+								<InputText type="text" v-model="textSearch" placeholder="Search"/>
 								</span>
 							</div>
 							<div class="col-1 text-right">
@@ -56,7 +56,7 @@
 									</div>
 								</div>
 								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150" style="height: 100px !important;"/>
+									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150" style="object-fit: cover;"/>
 								</div>
 								<div class="flex align-items-center justify-content-between">
 									<span>Rating : {{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
@@ -98,6 +98,13 @@
 		mounted() {
 			this.videoGameService.getGamesCount().then(data => this.gamescount = data);
 			this.videoGameService.getGames(9, 0).then(data => this.dataviewValue = data);
+		},
+		watch: {
+			textSearch(val, oldVal) {
+				if(val != oldVal){
+					this.search();
+				}
+			}
 		},
 		methods: {
 			onSortChange(event){
