@@ -8,7 +8,7 @@
             <div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color), rgba(33, 150, 243, 0) 30%);">
                 <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
                     <div class="text-center mb-5">
-                        <i class="pi pi-user" />
+                        <i class="pi-menubar pi pi-user" />
                         <div class="text-900 text-3xl font-medium mb-3">Welcome !</div>
                         <span class="text-600 font-medium">Sign in to continue</span>
                     </div>
@@ -53,6 +53,13 @@ export default {
             user: null,
         }
     },
+    created() {
+        this.email = localStorage.getItem('email');
+        this.password = localStorage.getItem('password');
+        if(this.email && this.password){
+            this.checked = true;
+        }
+    },
     computed: {
         logoColor() {
             if (this.$appState.darkTheme) return 'white';
@@ -70,6 +77,13 @@ export default {
             this.servicesFactory.getUsersService().login(this.email, this.password).then(data => {
                 this.user = data;
                 if(this.user){
+                    if(this.checked){
+                        localStorage.setItem('email', this.email);
+                        localStorage.setItem('password', this.password);
+                    }else{
+                        localStorage.removeItem('email');
+                        localStorage.removeItem('password');
+                    }
                     sessionStorage.setItem('user', data?.identifiant);
                     sessionStorage.setItem('role', data?.role);
                     this.$router.push('/');
@@ -93,5 +107,9 @@ export default {
 .pi-eye-slash {
     transform:scale(1.6);
     margin-right: 1rem;
+}
+
+.pi-menubar{
+	font-size: 2.5em
 }
 </style>

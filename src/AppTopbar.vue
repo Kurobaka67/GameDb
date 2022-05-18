@@ -94,9 +94,7 @@ export default {
 			this.$router.push('/login');
 		},
 		logout() {
-			localStorage.removeItem('user');
 			sessionStorage.removeItem('user');
-			localStorage.removeItem('role');
 			sessionStorage.removeItem('role');
 			window.location.reload(false);
 		},
