@@ -50,6 +50,8 @@ export default class VideoGameService {
 				g.title = game.title;
 				g.genres = game.genres;
 				g.image = game.image;
+				g.release = game.release;
+				g.status = game.status;
 				return g;
 			} else {
 				game.id = this.nextId();

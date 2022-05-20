@@ -22,33 +22,13 @@ export default class PlatformsService {
 		return this._getAllPlatforms().then(d => d.length);
 	}
 	getPlatformById(id) {
-		return this.http({
-			method: 'post',
-			url: PlatformsService.proxy + 'https://api.igdb.com/v4/games',
-			headers: {
-				'Accept': 'application/json',
-				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
-				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
-			},
-			data: "fields name,platforms.name,aggregated_rating,genres.name,summary,involved_companies.company.name,involved_companies.publisher,release_dates.human,first_release_date,cover.url,status; limit 1; where id = "+id+";"
-		})
-		.then(response => {
-			const data = response.data.map((d) => { return {
-				id: d.id,
-				title: d.name,
-				image: d.cover?.url,
-				genres: d.genres?.map((g) => g.name),
-				platforms: d.platforms?.map((p) => p.name),
-				rating: d.aggregated_rating,
-				description: d.summary,
-				publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
-				release: d.first_release_date,
-				status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
-			}});
-			return data[0];
-		})
-		.catch(err => {
-			console.error(err);
+		return this._getAllPlatforms().then(d => {
+			const r = d.filter((p) => p.id == id);
+			if(r.length > 0) {
+				return r[0];
+			} else {
+				return null;
+			}
 		});
 	}
 	getLastPlatformsRelease() {
@@ -58,17 +38,15 @@ export default class PlatformsService {
 		});
 	}
 	savePlatform(platform) {
-		return this._getAllGames().then(d => {
-			const r = d.filter((g) => g.id == platform.id);
+		return this._getAllPlatforms().then(d => {
+			const r = d.filter((p) => p.id == platform.id);
 			if(r.length > 0) {
-				let g = r[0];
-				g.rating = platform.rating;
-				g.description = platform.description;
-				g.publisher = platform.publisher;
-				g.title = platform.title;
-				g.genres = platform.genres;
-				g.image = platform.image;
-				return g;
+				let p = r[0];
+				p.description = platform.description;
+				p.name = platform.name;
+				p.image = platform.image;
+				p.date = platform.date;
+				return p;
 			} else {
 				platform.id = this.nextId();
 				PlatformsService._platforms.push(platform);
@@ -97,9 +75,9 @@ export default class PlatformsService {
 	}
 	nextId() {
 		let r = 0;
-		PlatformsService._games.map((g) => {
-			if(g.id > r){
-				r = g.id;
+		PlatformsService._platforms.map((p) => {
+			if(p.id > r){
+				r = p.id;
 			}
 		});
 		return ++r;

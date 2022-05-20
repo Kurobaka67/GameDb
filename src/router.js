@@ -33,12 +33,28 @@ const routes = [
                 path: '/gamenew',
                 name: 'gamenew',
                 component: () => import('./pages/GameNew.vue')
-            }
-            ,
+            },
             {
                 path: '/platforms',
                 name: 'platforms',
                 component: () => import('./pages/PlatformsView.vue')
+            },
+            {
+                path: '/platformdetail/:id',
+                name: 'platformdetail',
+                component: () => import('./pages/PlatformsDetail.vue'),
+                props: true
+            },
+            {
+                path: '/platformedit/:id',
+                name: 'platformedit',
+                component: () => import('./pages/PlatformsEdit.vue'),
+                props: true
+            },
+            {
+                path: '/platformnew',
+                name: 'platformnew',
+                component: () => import('./pages/PlatformsNew.vue')
             }
         ]
     },

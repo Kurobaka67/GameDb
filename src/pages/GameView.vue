@@ -23,7 +23,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addgame"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addgame" v-if="getType() == 'local'"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -56,7 +56,7 @@
 									</div>
 								</div>
 								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150" style="object-fit: cover;"/>
+									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="200" height="140" style="object-fit: cover;"/>
 								</div>
 								<div class="flex align-items-center justify-content-between">
 									<span>Rating : {{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
@@ -153,6 +153,9 @@
 			numberPages() {
 				console.log(this.gamescount);
 				return this.gamescount;
+			},
+			getType() {
+				return sessionStorage.getItem('type');
 			}
 		}
 	}

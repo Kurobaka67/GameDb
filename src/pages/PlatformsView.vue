@@ -17,7 +17,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addplatforms"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addplatform" v-if="getType() == 'local'"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -93,7 +93,7 @@
 			},
 			gotodetail(id) {
 				console.log(id);
-				//this.$router.push(`/gamedetail/${id}`);
+				this.$router.push(`/platformdetail/${id}`);
 			},
 			search() {
 				if(this.textSearch){
@@ -104,10 +104,13 @@
 				}
 			},
 			addplatform() {
-				//this.$router.push('/gamenew/');
+				this.$router.push('/platformnew/');
 			},
 			onPage(event){
 				this.platformsService.getPlatforms(event.rows, event.first).then(data => this.dataviewValue = data);
+			},
+			getType() {
+				return sessionStorage.getItem('type');
 			}
 		}
 	}

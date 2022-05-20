@@ -22,6 +22,12 @@
               <InputText type="text" v-model="urlImage" size="77"/>
             </div>
             <div class="field grid">
+              <label for="release" class="col-fixed" style="width: 100px"
+                >Release :
+              </label>
+              <Calendar v-model="release" dateFormat="yy-mm-dd" />
+            </div>
+            <div class="field grid">
               <label for="platforms" class="col-fixed" style="width: 100px"
                 >Platforms :
               </label>
@@ -108,7 +114,8 @@ export default {
         platforms: [],
         description: null,
         title: null,
-        status: "AVAILABLE"
+        status: "AVAILABLE",
+        release: null
       },
       options: ['AVAILABLE', 'UNAVAILABLE'],
       selectedGenres: null,
@@ -144,7 +151,8 @@ export default {
       urlImage: null,
       description: null,
       title: null,
-      status: "AVAILABLE"
+      status: "AVAILABLE",
+      release: null
     };
   },
   created() {
@@ -167,6 +175,7 @@ export default {
             this.game.publisher = this.publisher;
             this.game.title = this.title;
             this.game.status = this.status;
+            this.game.release = this.release;
 
 			this.videoGameService.saveGame(this.game);
             this.$router.push('/games');
