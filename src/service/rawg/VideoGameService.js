@@ -18,12 +18,12 @@ export default class VideoGameService {
 				image: d.background_image?d.background_image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.platform.name),
-				//rating: d.ratings[0].percent,
-				//description: d.summary,
-				//publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
+				rating: d.metacritic,
+				publisher: d.publishers?.map((p) => p.name).join(', '),
 				release: d.released,
 				//status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});
+			console.log(data);
 			return data;
 		})
 		.catch(err => {
@@ -67,7 +67,7 @@ export default class VideoGameService {
 				image: response.data.background_image?response.data.background_image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: response.data.genres?.map((g) => g.name),
 				platforms: response.data.platforms?.map((p) => p.platform.name),
-				//rating: d.ratings[0].percent,
+				rating: response.data.metacritic,
 				description: response.data.description_raw,
 				publisher: response.data.publishers?.map((p) => p.name).join(', '),
 				release: response.data.released,
@@ -90,9 +90,8 @@ export default class VideoGameService {
 				image: d.background_image?d.background_image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.platform.name),
-				//rating: d.ratings[0].percent,
-				//description: d.summary,
-				//publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
+				rating: d.metacritic,
+				publisher: d.publishers?.map((p) => p.name).join(', '),
 				release: d.released,
 				//status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});
@@ -134,9 +133,9 @@ export default class VideoGameService {
 				image: d.background_image?d.background_image:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.platform.name),
-				//rating: d.ratings[0].percent,
-				//description: d.summary,
-				//publisher: d.involved_companies?.filter((c) => c.publisher).map((c) => c.company.name).join(', '),
+				rating: d.metacritic,
+				description: d.description_raw,
+				publisher: d.publishers?.map((p) => p.name).join(', '),
 				release: d.released,
 				//status: d.status == 0?"AVAILABLE":"NONAVAILABLE"
 			}});

@@ -63,7 +63,7 @@ export default class PlatformsService {
 				id: d.id,
 				name: d.name,
 				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
-				date: d.year_start
+				date: "01-01-"+d.year_start
 			}});
 			return data;
 		})
@@ -78,10 +78,9 @@ export default class PlatformsService {
 				let g = r[0];
 				g.rating = platform.rating;
 				g.description = platform.description;
-				g.publisher = platform.publisher;
-				g.title = platform.title;
-				g.genres = platform.genres;
+				g.name = platform.name;
 				g.image = platform.image;
+				g.date = platform.date;
 				return g;
 			} else {
 				platform.id = this.nextId();

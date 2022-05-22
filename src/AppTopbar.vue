@@ -96,6 +96,8 @@ export default {
 		logout() {
 			sessionStorage.removeItem('user');
 			sessionStorage.removeItem('role');
+			localStorage.removeItem('email');
+			localStorage.removeItem('password');
 			window.location.reload(false);
 		},
 		localapi() {

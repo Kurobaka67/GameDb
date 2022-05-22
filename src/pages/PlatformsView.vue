@@ -6,10 +6,10 @@
 				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="platformscount" :sortOrder="sortOrder" :sortField="sortField">
 					<template #header>
 						<div class="grid grid-nogutter">
-							<div class="col-5 text-right">
+							<div class="col-6 text-center">
 								<DataViewLayoutOptions v-model="layout" />
 							</div>
-							<div class="col-6 text-right">
+							<div class="col-5 text-right">
 								<span class="p-input-icon-left">
 								<i class="pi pi-search" />
 								<InputText type="text" v-model="textSearch" placeholder="Search" @change="search"/>

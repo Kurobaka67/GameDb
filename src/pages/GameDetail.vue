@@ -21,10 +21,10 @@
 						<Knob :modelValue="game?.rating" :valueColor="ratingColor"/>
 					</div>
 					<div class="col-10 text-right">
-						<Button label="Edit" class="p-button-sm" @click="edit" v-if="getCurrentUser() != 'Guest' && getCurrentUser()"/>
+						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local')"/>
 					</div>
 					<div class="col-1">
-						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="getCurrentUser() != 'Guest' && getCurrentUser()"></Button>
+						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local')"></Button>
 					</div>
 					<div class="col-1">
 						<Button label="Close" class="p-button-sm" @click="close" />
@@ -94,6 +94,9 @@ export default {
         },
 		getCurrentUser() {
 			return sessionStorage.getItem('role');
+		},
+		getType() {
+			return sessionStorage.getItem('type');
 		}
 	}
 }

@@ -6,14 +6,13 @@
 				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount">
 					<template #header>
 						<div class="grid grid-nogutter">
-							<div class="col-7 text-center">
+							<div class="col-6 text-center">
 								<DataViewLayoutOptions v-model="layout" />
 							</div>
-							<div class="col-1 text-right">
-								<span class="p-input-icon-left">
-								<label for="rating">Rating: {{rating?rating:0}}</label>
-								<Slider v-model="rating" @change="search"/>
-								</span>
+							<div class="col-2 text-right" style="display: flex; flex-direction: row; align-items: center; margin: 0 auto;">
+								<label for="rating" style="padding: 10px;">Rating : </label>
+								<Slider v-model="rating" @change="search" class="p-slider" style="width: 30% ;"/>
+								<p style="padding: 10px;">{{rating?rating:0}}</p>
 							</div>
 							<div class="col-3 text-right">
 								<span class="p-input-icon-left">
@@ -56,16 +55,14 @@
 									</div>
 								</div>
 								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="200" height="140" style="object-fit: cover;"/>
-								</div>
-								<div class="flex align-items-center justify-content-between">
-									<span>Rating : {{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
+									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="200" height="140" style="object-fit: scale-down;"/>
 								</div>
 								<div class="flex align-items-center justify-content-between">
 									<span>{{slotProps.data.publisher}}</span>
 								</div>
 								<div class="flex align-items-center justify-content-between">
-									{{genres(slotProps.data)}}
+									<span>{{genres(slotProps.data)}}</span>
+									<span>{{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
 								</div>
 							</div>
 						</div>

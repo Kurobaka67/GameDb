@@ -10,7 +10,7 @@
 					</template>
 					<template #grid="slotProps">
 						<div class="col-12 md:col-3">
-							<div class="card m-3 border-1 surface-border" @click="gotodetail(slotProps.data.id)">
+							<div class="card m-3 border-1 surface-border" @click="gotogamedetail(slotProps.data.id)">
 								<div class="flex align-items-center justify-content-between">
 									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 										<p class="font-semibold">{{slotProps.data.title}}</p>
@@ -35,7 +35,7 @@
 					</template>
 					<template #grid="slotProps">
 						<div class="col-12 md:col-3">
-							<div class="card m-3 border-1 surface-border">
+							<div class="card m-3 border-1 surface-border" @click="gotoplatformdetail(slotProps.data.id)">
 								<div class="flex align-items-center justify-content-between">
 									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 										<p class="font-semibold">{{slotProps.data.name}}</p>
@@ -156,8 +156,11 @@ export default {
 				}
 			};
 		},
-		gotodetail(id) {
+		gotogamedetail(id) {
 			this.$router.push(`/gamedetail/${id}`);
+		},
+		gotoplatformdetail(id) {
+			this.$router.push(`/platformdetail/${id}`);
 		},
 		genres(game) {
 			return game.genres?.join(', ');

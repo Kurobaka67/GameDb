@@ -1,6 +1,7 @@
 <template>
   <div class="grid">
     <ConfirmPopup></ConfirmPopup>
+    <Toast />
     <div class="col-12">
       <div class="card">
         <div class="grid formgrid">
@@ -171,18 +172,24 @@ export default {
   },
   methods: {
 		save() {
-            this.game.rating = this.rating;
-            this.game.description = this.description;
-            this.game.image = this.urlImage;
-            this.game.genres = this.selectedGenres;
-            this.game.platforms = this.selectedPlatforms;
-            this.game.publisher = this.publisher;
-            this.game.title = this.title;
-            this.game.status = this.status;
-            this.game.release = dayjs(this.release).format('YYYY-MM-DD');
+      var pattern = new RegExp('(http|https)://')
+      if(pattern.test(this.urlImage)){
+        this.game.rating = this.rating;
+        this.game.description = this.description;
+        this.game.image = this.urlImage;
+        this.game.genres = this.selectedGenres;
+        this.game.platforms = this.selectedPlatforms;
+        this.game.publisher = this.publisher;
+        this.game.title = this.title;
+        this.game.status = this.status;
+        this.game.release = dayjs(this.release).format('YYYY-MM-DD');
 
-			this.videoGameService.saveGame(this.game);
-      this.$router.push(`/gamedetail/${this.id}`);
+        this.videoGameService.saveGame(this.game);
+        this.$router.push(`/gamedetail/${this.id}`);
+      }
+      else{
+        this.$toast.add({severity:'info', summary:'Failed', detail:'Wrond url for image', life: 3000});
+      }
 		},
     cancel() {
       this.$router.push(`/gamedetail/${this.id}`);
