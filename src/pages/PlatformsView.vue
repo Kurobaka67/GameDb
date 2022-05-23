@@ -34,16 +34,7 @@
 
 					<template #grid="slotProps">
 						<div class="col-12 md:col-4">
-							<div class="card m-3 border-1 surface-border" @click="gotodetail(slotProps.data.id)">
-								<div class="flex align-items-center justify-content-between">
-									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-										<p class="font-semibold">{{slotProps.data.name}}</p>
-									</div>
-								</div>
-								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150"/>
-								</div>
-							</div>
+							<PlatformCard :platform="slotProps" />
 						</div>
 					</template>
 				</DataView>
@@ -53,8 +44,12 @@
 </template>
 
 <script>
+import PlatformCard from '../components/PlatformCard.vue'
 
 	export default {
+		components: {
+			PlatformCard
+		},
 		data() {
 			return {
 				dataviewValue: null,
@@ -90,10 +85,6 @@
 					this.sortField = value;
 					this.sortKey = sortValue;
 				}
-			},
-			gotodetail(id) {
-				console.log(id);
-				this.$router.push(`/platformdetail/${id}`);
 			},
 			search() {
 				if(this.textSearch){

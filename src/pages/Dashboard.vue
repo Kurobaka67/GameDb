@@ -10,22 +10,7 @@
 					</template>
 					<template #grid="slotProps">
 						<div class="col-12 md:col-3">
-							<div class="card m-3 border-1 surface-border" @click="gotogamedetail(slotProps.data.id)">
-								<div class="flex align-items-center justify-content-between">
-									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-										<p class="font-semibold">{{slotProps.data.title}}</p>
-									</div>
-								</div>
-								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="150"/>
-								</div>
-								<div class="flex align-items-center justify-content-between">
-									<span>{{slotProps.data.publisher}}</span>
-								</div>
-								<div class="flex align-items-center justify-content-between">
-									{{genres(slotProps.data)}}
-								</div>
-							</div>
+							<GameCard :game="slotProps" />
 						</div>
 					</template>
 				</DataView>
@@ -35,16 +20,7 @@
 					</template>
 					<template #grid="slotProps">
 						<div class="col-12 md:col-3">
-							<div class="card m-3 border-1 surface-border" @click="gotoplatformdetail(slotProps.data.id)">
-								<div class="flex align-items-center justify-content-between">
-									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-										<p class="font-semibold">{{slotProps.data.name}}</p>
-									</div>
-								</div>
-								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.name" width="150"/>
-								</div>
-							</div>
+							<PlatformCard :platform="slotProps" />
 						</div>
 					</template>
 				</DataView>
@@ -54,8 +30,14 @@
 
 <script>
 import EventBus from '@/AppEventBus';
+import GameCard from '../components/GameCard.vue'
+import PlatformCard from '../components/PlatformCard.vue'
 
 export default {
+	components: {
+		GameCard,
+		PlatformCard
+	},
 	data() {
 			return {
 				gameviewValue: null,
@@ -156,15 +138,6 @@ export default {
 				}
 			};
 		},
-		gotogamedetail(id) {
-			this.$router.push(`/gamedetail/${id}`);
-		},
-		gotoplatformdetail(id) {
-			this.$router.push(`/platformdetail/${id}`);
-		},
-		genres(game) {
-			return game.genres?.join(', ');
-		}
 	},
 	computed: {
         message() {

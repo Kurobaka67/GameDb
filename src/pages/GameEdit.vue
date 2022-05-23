@@ -1,6 +1,6 @@
 <template>
   <div class="grid">
-    <ConfirmPopup></ConfirmPopup>
+    <ConfirmDialog></ConfirmDialog>
     <Toast />
     <div class="col-12">
       <div class="card">
@@ -196,25 +196,32 @@ export default {
     }
 	},
   beforeRouteLeave (to, from , next) {
-      if(this.game.rating != this.rating ||
-        this.game.description != this.description ||
-        this.game.image != this.urlImage ||
-        this.game.genres != this.selectedGenres ||
-        this.game.platforms != this.selectedPlatforms ||
-        this.game.publisher != this.publisher ||
-        this.game.title != this.title ||
-        this.game.status != this.status ||
-        this.game.release != dayjs(this.release).format('YYYY-MM-DD')){
-          const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
-          if (answer) {
-            next();
-          } else {
-            next(false);
+    if(this.game.rating != this.rating ||
+      this.game.description != this.description ||
+      this.game.image != this.urlImage ||
+      this.game.genres != this.selectedGenres ||
+      this.game.platforms != this.selectedPlatforms ||
+      this.game.publisher != this.publisher ||
+      this.game.title != this.title ||
+      this.game.status != this.status ||
+      this.game.release != dayjs(this.release).format('YYYY-MM-DD')){
+        this.$confirm.require({
+          message: 'Do you really want to leave? you have unsaved changes!',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+              this.$toast.add({severity:'info', summary:'Confirmed', detail:'You have accepted', life: 3000});
+              next();
+          },
+          reject: () => {
+              this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+              next(false);
           }
-      }
-      else {
-        next();
-      }
-}
+        });
+    }
+    else {
+      next();
+    }
+  }
 };
 </script>

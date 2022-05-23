@@ -48,23 +48,7 @@
 
 					<template #grid="slotProps">
 						<div class="col-12 md:col-4">
-							<div class="card m-3 border-1 surface-border" @click="gotodetail(slotProps.data.id)">
-								<div class="flex align-items-center justify-content-between">
-									<div class="flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-										<p class="font-semibold">{{slotProps.data.title}}</p>
-									</div>
-								</div>
-								<div class="text-center">
-									<img :src="slotProps.data.image" :alt="slotProps.data.title" width="200" height="140" style="object-fit: scale-down;"/>
-								</div>
-								<div class="flex align-items-center justify-content-between">
-									<span>{{slotProps.data.publisher}}</span>
-								</div>
-								<div class="flex align-items-center justify-content-between">
-									<span>{{genres(slotProps.data)}}</span>
-									<span>{{slotProps.data.rating?slotProps.data.rating:"N/A"}}</span>
-								</div>
-							</div>
+							<GameCard :game="slotProps" />
 						</div>
 					</template>
 				</DataView>
@@ -74,8 +58,12 @@
 </template>
 
 <script>
+	import GameCard from '../components/GameCard.vue'
 
 	export default {
+		components: {
+			GameCard
+		},
 		data() {
 			return {
 				dataviewValue: null,
@@ -119,9 +107,6 @@
 					this.sortKey = sortValue;
 				}
 			},
-			gotodetail(id) {
-				this.$router.push(`/gamedetail/${id}`);
-			},
 			search() {
 				if(this.textSearch || this.rating){
 					this.videoGameService?.searchGames(9, 0, this.textSearch, this.rating).then(data => this.dataviewValue = data);
@@ -135,9 +120,6 @@
 			},
 			addgame() {
 				this.$router.push('/gamenew/');
-			},
-			genres(game) {
-				return game.genres?.join(', ');
 			},
 			onPage(event){
 				if(this.textSearch || this.rating){

@@ -49,7 +49,13 @@ export default {
     },
 	computed : {
 		release() {
-			return dayjs(this.platform?.date).format('MMM DD, YYYY');
+			if(this.platform?.date){
+				return dayjs(this.platform?.date).format('MMM DD, YYYY');
+			}
+			else {
+				return 'N/A'
+			}
+			
 		}
 	},
 	methods: {

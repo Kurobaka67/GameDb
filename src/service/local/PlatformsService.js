@@ -5,8 +5,8 @@ export default class PlatformsService {
 	_getAllPlatforms() {
 		if(PlatformsService._platforms == null) {
 			return fetch('data/platforms.json').then(res => res.json()).then(d => {
+				d.data.forEach((p) => p.image = "https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api");
 				PlatformsService._platforms = d.data;
-				PlatformsService._platforms.image = "https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api";
 				return [...PlatformsService._platforms];
 			});
 		} else {
