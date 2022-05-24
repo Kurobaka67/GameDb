@@ -173,7 +173,7 @@ export default {
   methods: {
 		save() {
       var pattern = new RegExp('(http|https)://')
-      if(pattern.test(this.urlImage)){
+      if(pattern.test(this.urlImage) || !this.urlImage){
         this.game.rating = this.rating;
         this.game.description = this.description;
         this.game.image = this.urlImage;
@@ -188,7 +188,7 @@ export default {
         this.$router.push(`/gamedetail/${this.id}`);
       }
       else{
-        this.$toast.add({severity:'info', summary:'Failed', detail:'Wrond url for image', life: 3000});
+        this.$toast.add({severity:'info', summary:'Failed', detail:'Wrong url for image', life: 3000});
       }
 		},
     cancel() {

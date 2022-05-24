@@ -63,7 +63,7 @@ export default class PlatformsService {
 				id: d.id,
 				name: d.name,
 				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
-				date: "01-01-"+d.year_start
+				date: +d.year_start
 			}});
 			return data;
 		})

@@ -10,7 +10,7 @@ export default class VideoGameService {
     getGames(pageSize, pageOffset) {
 		return this.http({
 			method: 'post',
-			url: VideoGameService.proxy + 'https://api.igdb.com/v4/games',
+			url: VideoGameService.proxy + `https://api.igdb.com/v4/games`,
 			headers: {
 				'Accept': 'application/json',
 				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',

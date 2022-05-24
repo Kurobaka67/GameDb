@@ -22,7 +22,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addgame" v-if="getType() == 'local'"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local')"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -135,6 +135,9 @@
 			},
 			getType() {
 				return sessionStorage.getItem('type');
+			},
+			getCurrentUser() {
+				return sessionStorage.getItem('role');
 			}
 		}
 	}

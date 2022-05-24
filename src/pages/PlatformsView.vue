@@ -17,7 +17,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addplatform" v-if="getType() == 'local'"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addplatform" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local')"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -102,6 +102,9 @@ import PlatformCard from '../components/PlatformCard.vue'
 			},
 			getType() {
 				return sessionStorage.getItem('type');
+			},
+			getCurrentUser() {
+				return sessionStorage.getItem('role');
 			}
 		}
 	}

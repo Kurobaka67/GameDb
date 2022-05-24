@@ -33,7 +33,7 @@ export default class ServicesFactory {
             case "igdb" : return new IGDBVideoGameService(this.config.http);
             case "rawg" : return new RAWGVideoGameService(this.config.http);
             case "local":
-            default: return new LocalVideoGameService();
+            default: return new LocalVideoGameService(this.config.http);
         }
     }
     getPlatformsService() {
