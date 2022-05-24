@@ -81,7 +81,10 @@ export default class VideoGameService {
 		return this.http({
 			method: 'put',
 			url: `http://localhost:3000/games/${game.id}`,
-			data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ${game.platforms}, "description": "${game.description}", "publisher": "${game.publisher}", "genres": ${game.genres}, "status": "${game.status}"}`
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ["${game.platforms.join("\",\"")}"], "description": "${game.description}", "publisher": "${game.publisher}", "genres": ["${game.genres.join("\",\"")}"], "status": "${game.status}"}`
 		})
 		.then(response => {
 			return response
