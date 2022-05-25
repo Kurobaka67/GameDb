@@ -6,7 +6,7 @@
           <h5 class="col-11">{{ title }}</h5>
           <p class="col-1">{{ game?.status }}</p>
           <div class="col-4">
-            <img :src="urlImage" width="300"/>
+            <img :src="getImage(urlImage)" width="300"/>
           </div>
           <div class="col-7">
             <div class="field grid">
@@ -100,8 +100,10 @@
 </template>
 
 <script>
+import imageGetter from '../config/imageGetter.js';
 
 export default {
+  mixins: [imageGetter],
   videoGameService: null,
   data() {
     return {
@@ -177,7 +179,7 @@ export default {
             this.game.status = this.status;
             this.game.release = this.release;
 
-			this.videoGameService.saveGame(this.game);
+			this.videoGameService.createGame(this.game);
             this.$router.push('/games');
 		},
         cancel() {

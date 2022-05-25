@@ -8,7 +8,7 @@
           <h5 class="col-11">{{ title }}</h5>
           <p class="col-1">{{ game?.status }}</p>
           <div class="col-4">
-            <img :src="urlImage" width="300"/>
+            <img :src="getImage(urlImage)" width="300"/>
           </div>
           <div class="col-7">
             <div class="field grid">
@@ -103,9 +103,11 @@
 
 <script>
 import dayjs from "dayjs";
+import imageGetter from '../config/imageGetter.js';
 
 export default {
   props: ["id"],
+  mixins: [imageGetter],
   videoGameService: null,
   data() {
     return {

@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="text-center">
-            <img :src="game.data.image" :alt="game.data.title" width="200" height="140" style="object-fit: scale-down;"/>
+            <img :src="getImage(game.data?.image)" :alt="game.data.title" width="200" height="140" style="object-fit: scale-down;"/>
         </div>
         <div class="flex align-items-center justify-content-between">
             <span>{{game.data.publisher}}</span>
@@ -18,8 +18,11 @@
     </div>
 </template>
 <script>
+import imageGetter from '../config/imageGetter.js';
+
 export default {
     props: ['game'],
+    mixins: [imageGetter],
     data() {
         return {
             

@@ -22,7 +22,7 @@ export default class VideoGameService {
 			const data = response.data.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.cover?.url,
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.name),
 				rating: d.aggregated_rating,
@@ -120,7 +120,7 @@ export default class VideoGameService {
 			var data = response.data.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.cover?.url,
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.name),
 				rating: d.aggregated_rating,
@@ -175,7 +175,7 @@ export default class VideoGameService {
 			var data = response.data.map((d) => { return {
 				id: d.id,
 				title: d.name,
-				image: d.cover?.url?d.cover.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.cover?.url,
 				genres: d.genres?.map((g) => g.name),
 				platforms: d.platforms?.map((p) => p.name),
 				rating: d.aggregated_rating,

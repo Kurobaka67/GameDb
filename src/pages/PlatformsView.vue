@@ -12,7 +12,7 @@
 							<div class="col-5 text-right">
 								<span class="p-input-icon-left">
 								<i class="pi pi-search" />
-								<InputText type="text" v-model="textSearch" placeholder="Search" @change="search"/>
+								<InputText type="text" v-model="textSearch" placeholder="Search"/>
 								</span>
 							</div>
 							<div class="col-1 text-right">
@@ -58,7 +58,6 @@ import PlatformCard from '../components/PlatformCard.vue'
 				sortOrder: null,
 				sortField: null,
 				textSearch: null,
-				rating: null,
 				platformscount: 0,
 			}
 		},
@@ -69,6 +68,13 @@ import PlatformCard from '../components/PlatformCard.vue'
 		mounted() {
 			this.platformsService.getPlatformsCount().then(data => this.platformscount = data);
 			this.platformsService.getPlatforms(9, 0).then(data => this.dataviewValue = data);
+		},
+		watch: {
+			textSearch(val, oldVal) {
+				if(val != oldVal){
+					this.search();
+				}
+			}
 		},
 		methods: {
 			onSortChange(event){
@@ -88,7 +94,7 @@ import PlatformCard from '../components/PlatformCard.vue'
 			},
 			search() {
 				if(this.textSearch){
-					this.platformsService?.searchPlatforms(this.textSearch).then(data => this.dataviewValue = data);
+					this.platformsService?.searchPlatforms(9, 0, this.textSearch).then(data => this.dataviewValue = data);
 				}
 				else{
 					this.platformsService.getPlatforms(9, 0).then(data => this.dataviewValue = data);

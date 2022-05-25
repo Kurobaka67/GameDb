@@ -7,7 +7,7 @@
 				<div class="grid">
 					<h5 class="col-12">{{platform?.name}}</h5>
 					<div class="col-4">
-						<img :src="platform?.image" width="300"/>
+						<img :src="getImage(platform?.image)" width="300"/>
 					</div>
 					<div class="col-7">
 						<p>Release : <span>{{release}}</span></p>
@@ -30,9 +30,11 @@
 
 <script>
 import dayjs from 'dayjs';
+import imageGetter from '../config/imageGetter.js';
 
 export default {
     props: ['id'],
+	mixins: [imageGetter],
 	platformService: null,
 	userService: null,
 	created() {

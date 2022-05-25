@@ -24,6 +24,9 @@
 		</button>
 		<ul class="layout-topbar-menu hidden lg:flex origin-top">
 			<li>
+				<Dropdown v-model="selectedType" :options="type" @change="changeAPI"/>
+			</li>
+			<li>
 				<Menubar :model="allItems" style="background-color: var(--surface-ground); border: none"/>
 			</li>
 		</ul>
@@ -35,24 +38,14 @@ import { reactive } from "vue";
 export default {
 	data() {
         return {
+			selectedType: null,
+			type: [
+                'local',
+                'igdb',
+                'rawg',
+				'my api'
+            ],
 			items: [
-				{
-					icon:'pi-menubar pi pi-cog',
-					items:[
-						{
-							label:'Local API',
-							command: this.localapi,
-						},
-						{
-							label:'IGDB API',
-							command: this.igdbapi,
-						},
-						{
-							label:'RAWG API',
-							command: this.rawgapi,
-						}
-					]
-				},
 				{
 					label: this.currentUser,
 					icon:'pi-menubar pi pi-user',
@@ -73,6 +66,9 @@ export default {
 		if(sessionStorage.getItem('type')){
 			this.servicesFactory.setType(sessionStorage.getItem('type'));
 		}
+	},
+	mounted() {
+		this.selectedType = sessionStorage.getItem('type');
 	},
     methods: {
         onMenuToggle(event) {
@@ -100,28 +96,8 @@ export default {
 			localStorage.removeItem('password');
 			window.location.reload(false);
 		},
-		localapi() {
-			sessionStorage.setItem('type', 'local');
-			this.servicesFactory.setType(sessionStorage.getItem('type'));
-			if(this.$router.currentRoute.value.fullPath == '/'){
-				window.location.reload(false);
-			}
-			else{
-				this.$router.push('/');
-			}
-		},
-		igdbapi() {
-			sessionStorage.setItem('type', 'igdb');
-			this.servicesFactory.setType(sessionStorage.getItem('type'));
-			if(this.$router.currentRoute.value.fullPath == '/'){
-				window.location.reload(false);
-			}
-			else{
-				this.$router.push('/');
-			}
-		},
-		rawgapi(){
-			sessionStorage.setItem('type', 'rawg');
+		changeAPI(){
+			sessionStorage.setItem('type', this.selectedType);
 			this.servicesFactory.setType(sessionStorage.getItem('type'));
 			if(this.$router.currentRoute.value.fullPath == '/'){
 				window.location.reload(false);
@@ -163,23 +139,6 @@ export default {
 			if(sessionStorage.getItem('user')){
 				return [
 					{
-						icon:'pi-menubar pi pi-cog',
-						items:[
-							{
-								label:'Local API',
-								command: this.localapi,
-							},
-							{
-								label:'IGDB API',
-								command: this.igdbapi,
-							},
-							{
-								label:'RAWG API',
-								command: this.rawgapi,
-							}
-						]
-					},
-					{
 						label: this.currentUser,
 						icon:'pi-menubar pi pi-user',
 						items:[
@@ -197,23 +156,6 @@ export default {
 			else {
 				return [
 					{
-						icon:'pi-menubar pi pi-cog',
-						items:[
-							{
-								label:'Local API',
-								command: this.localapi,
-							},
-							{
-								label:'IGDB API',
-								command: this.igdbapi,
-							},
-							{
-								label:'RAWG API',
-								command: this.rawgapi,
-							}
-						]
-					},
-					{
 						label: this.currentUser,
 						icon:'pi-menubar pi pi-user',
 						items:[
@@ -228,6 +170,9 @@ export default {
 					}
 				].map((i) => reactive(i))
 			}
+		},
+		getType(){
+			return sessionStorage.getItem('type');
 		}
 	}
 }

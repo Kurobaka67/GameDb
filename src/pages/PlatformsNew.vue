@@ -6,7 +6,7 @@
           <h5 class="col-11">{{ title }}</h5>
           <p class="col-1">{{ game?.status }}</p>
           <div class="col-4">
-            <img :src="urlImage" width="300"/>
+            <img :src="getImage(urlImage)" width="300"/>
           </div>
           <div class="col-8">
             <div class="field grid">
@@ -52,8 +52,10 @@
 </template>
 
 <script>
+import imageGetter from '../config/imageGetter.js';
 
 export default {
+  mixins: [imageGetter],
   platformService: null,
   data() {
     return {
@@ -87,7 +89,7 @@ export default {
             this.platform.name = this.name;
             this.platform.date = this.release;
 
-			this.platformService.savePlatform(this.platform);
+			this.platformService.createPlatform(this.platform);
             this.$router.push('/platforms');
 		},
         cancel() {

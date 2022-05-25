@@ -72,7 +72,7 @@
 				sortOrder: null,
 				sortField: null,
 				textSearch: null,
-				rating: null,
+				rating: 0,
 				gamescount: 0,
 			}
 		},

@@ -6,13 +6,16 @@
             </div>
         </div>
         <div class="text-center">
-            <img :src="platform.data.image" :alt="platform.data.title" width="150"/>
+            <img :src="getImage(platform.data?.image)" :alt="platform.data.title" width="150"/>
         </div>
     </div>
 </template>
 <script>
+import imageGetter from '../config/imageGetter.js';
+
 export default {
     props: ['platform'],
+    mixins: [imageGetter],
     data() {
         return {
             
