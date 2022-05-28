@@ -55,6 +55,11 @@ const routes = [
                 path: '/platformnew',
                 name: 'platformnew',
                 component: () => import('./pages/PlatformsNew.vue')
+            },
+            {
+                path: '/profile',
+                name: 'profile',
+                component: () => import('./pages/Profile.vue')
             }
         ]
     },

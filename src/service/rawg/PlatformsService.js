@@ -15,7 +15,7 @@ export default class PlatformsService {
 			const data = response.data.results.map((d) => { return {
 				id: d.id,
 				name: d.name,
-				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.image_background,
 				date: d.year_start
 			}});
 			return data;
@@ -45,7 +45,7 @@ export default class PlatformsService {
 			return {
 				id: response.data.id,
 				name: response.data.name,
-				image: response.data.image_background?response.data.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: response.data.image_background,
 				date: response.data.year_start,
 				description: response.data.description
 		}})
@@ -62,7 +62,7 @@ export default class PlatformsService {
 			var data = response.data.results.map((d) => { return {
 				id: d.id,
 				name: d.name,
-				image: d.image_background?d.image_background:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.image_background,
 				date: +d.year_start
 			}});
 			return data;
@@ -89,13 +89,22 @@ export default class PlatformsService {
 			}
 		});
 	}
-	searchPlatforms(pageSize, pageOffset, textSearch, rating) {
-		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
-		return this._getAllGames().then(d => {
-			const r = d.filter((g) =>{
-				return (!re || (re.test(g.title) || re.test(g.genres))) && (!rating || (g.rating > rating))
-			});
-			return r;
+	searchPlatforms(pageSize, pageOffset, textSearch) {
+		return this.http({
+			method: 'get',
+			url: `https://rawg.io/api/games?key=d511caa2f28d4c31a40efcfce5d9a5d9&page_size=${pageSize}&page=${pageOffset/9+1}&search=${textSearch}`
+		})
+		.then(response => {
+			var data = response.data.results.map((d) => { return {
+				id: d.id,
+				name: d.name,
+				image: d.image_background,
+				date: d.year_start
+			}});
+			return data;
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
 	deletePlatform(game) {

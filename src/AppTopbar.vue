@@ -22,11 +22,14 @@
 			leaveToClass: 'hidden', leaveActiveClass: 'fadeout', hideOnOutsideClick: true}">
 			<i class="pi pi-ellipsis-v"></i>
 		</button>
-		<ul class="layout-topbar-menu hidden lg:flex origin-top">
+		<ul class="layout-topbar-menu hidden lg:flex align-items-center">
+			<li>
+				<p style="padding-right: 5px;">Data Source : </p>
+			</li>
 			<li>
 				<Dropdown v-model="selectedType" :options="type" @change="changeAPI"/>
 			</li>
-			<li>
+			<li v-if="getType() == 'local' || getType() == 'my api'">
 				<Menubar :model="allItems" style="background-color: var(--surface-ground); border: none"/>
 			</li>
 		</ul>
@@ -52,6 +55,7 @@ export default {
 					items:[
 						{
 							label:'Profile',
+							command: this.gotoprofile,
 						},
 						{
 							label:'Login',
@@ -66,9 +70,15 @@ export default {
 		if(sessionStorage.getItem('type')){
 			this.servicesFactory.setType(sessionStorage.getItem('type'));
 		}
+		
 	},
 	mounted() {
-		this.selectedType = sessionStorage.getItem('type');
+		if(sessionStorage.getItem('type')){
+			this.selectedType = sessionStorage.getItem('type');
+		}
+		else{
+			this.selectedType = "local";
+		}
 	},
     methods: {
         onMenuToggle(event) {
@@ -89,12 +99,19 @@ export default {
 		gotologin() {
 			this.$router.push('/login');
 		},
+		gotoprofile() {
+			this.$router.push('/profile');
+		},
 		logout() {
 			sessionStorage.removeItem('user');
-			sessionStorage.removeItem('role');
 			localStorage.removeItem('email');
 			localStorage.removeItem('password');
-			window.location.reload(false);
+			if(this.$router.currentRoute.value.fullPath == '/'){
+				window.location.reload(false);
+			}
+			else{
+				this.$router.push('/');
+			}
 		},
 		changeAPI(){
 			sessionStorage.setItem('type', this.selectedType);
@@ -105,6 +122,9 @@ export default {
 			else{
 				this.$router.push('/');
 			}
+		},
+		getType(){
+			return sessionStorage.getItem('type');
 		}
     },
 	computed: {
@@ -133,7 +153,7 @@ export default {
 			}
 		},
 		currentUser() {
-			return sessionStorage.getItem('user');
+			return JSON.parse(sessionStorage.getItem('user'))?.identifiant;
 		},
 		allItems() {
 			if(sessionStorage.getItem('user')){
@@ -144,6 +164,7 @@ export default {
 						items:[
 							{
 								label:'Profile',
+								command: this.gotoprofile,
 							},
 							{
 								label:'Logout',
@@ -160,9 +181,6 @@ export default {
 						icon:'pi-menubar pi pi-user',
 						items:[
 							{
-								label:'Profile',
-							},
-							{
 								label:'Login',
 								command: this.gotologin,
 							}
@@ -170,9 +188,6 @@ export default {
 					}
 				].map((i) => reactive(i))
 			}
-		},
-		getType(){
-			return sessionStorage.getItem('type');
 		}
 	}
 }

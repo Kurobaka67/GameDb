@@ -53,18 +53,18 @@ export default class PlatformsService {
 			}
 		});
 	}
-	searchPlatforms(pageSize, pageOffset, textSearch, rating) {
+	searchPlatforms(pageSize, pageOffset, textSearch) {
 		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
-		return this._getAllGames().then(d => {
-			const r = d.filter((g) =>{
-				return (!re || (re.test(g.title) || re.test(g.genres))) && (!rating || (g.rating > rating))
+		return this._getAllPlatforms().then(d => {
+			const r = d.filter((p) =>{
+				return (!re || (re.test(p.name)))
 			});
 			return r;
 		});
 	}
 	deletePlatform(game) {
 		var index = PlatformsService._games.findIndex(g => g.id == game.id);
-		return this._getAllGames().then(d => {
+		return this._getAllPlatforms().then(d => {
 			
 			d.splice(index, 1);
 		});

@@ -29,7 +29,7 @@
                         </div>
                         <div class="flex align-items-center mb-5">
                             <p>You don't have an account ?</p>
-                            <Button label="Sign on" @click="signon"></Button>
+                            <Button label="Sign on" class="p-button-link" @click="signon"></Button>
                         </div>
                         <Button label="Sign In" class="w-full p-3 text-xl" @click="login"></button>
                         <div class="col-7 text-right">
@@ -84,8 +84,7 @@ export default {
                         localStorage.removeItem('email');
                         localStorage.removeItem('password');
                     }
-                    sessionStorage.setItem('user', data?.identifiant);
-                    sessionStorage.setItem('role', data?.role);
+                    sessionStorage.setItem('user', JSON.stringify(data));
                     this.$router.push('/');
                 }
                 else {

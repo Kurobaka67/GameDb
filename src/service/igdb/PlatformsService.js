@@ -22,7 +22,7 @@ export default class PlatformsService {
 			const data = response.data.map((d) => { return {
 				id: d.id,
 				name: d.name,
-				image: d.platform_logo?.url?d.platform_logo.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.platform_logo?.url,
 				date: d.created_at
 			}});
 			return data;
@@ -63,7 +63,7 @@ export default class PlatformsService {
 			const data = response.data.map((d) => { return {
 				id: d.id,
 				name: d.name,
-				image: d.platform_logo?.url?d.platform_logo.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.platform_logo?.url,
 				date: d.created_at,
 				description: d.summary
 			}});
@@ -90,7 +90,7 @@ export default class PlatformsService {
 			var data = response.data.map((d) => { return {
 				id: d.id,
 				name: d.name,
-				image: d.platform_logo?.url?d.platform_logo.url:"https://tse2.mm.bing.net/th?id=OIP.yHrP1XP9nGoetObf102rvwHaFE&pid=Api",
+				image: d.platform_logo?.url,
 				date: d.created_at
 			}});
 			data.sort((g, h) => {
@@ -123,13 +123,29 @@ export default class PlatformsService {
 			}
 		});
 	}
-	searchPlatforms(pageSize, pageOffset, textSearch, rating) {
-		const re = textSearch?new RegExp('.*'+this.escapeRegExp(textSearch)+'.*', 'i'):null;
-		return this._getAllGames().then(d => {
-			const r = d.filter((g) =>{
-				return (!re || (re.test(g.title) || re.test(g.genres))) && (!rating || (g.rating > rating))
-			});
-			return r;
+	searchPlatforms(pageSize, pageOffset, textSearch) {
+		return this.http({
+			method: 'post',
+			url: PlatformsService.proxy + 'https://api.igdb.com/v4/games',
+			headers: {
+				'Accept': 'application/json',
+				'Client-ID': 'd7kcsn1s16q196slfuxvehvh5ziobh',
+				'Authorization': 'Bearer 5hxcw2du9fmde49uwv018wq49wj9gj',
+			},
+			data: `fields name,created_at,platform_logo,platform_logo.url; search "${textSearch}"; limit ${pageSize}; offset ${pageOffset};`
+		})
+		.then(response => {
+			var data = response.data.map((d) => { return {
+				id: d.id,
+				name: d.name,
+				image: d.platform_logo?.url,
+				date: d.created_at,
+				description: d.summary
+			}});
+			return data;
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
 	deletePlatform(game) {

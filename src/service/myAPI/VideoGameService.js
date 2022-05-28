@@ -1,26 +1,15 @@
+import UsersService from "./UsersService";
+
 export default class VideoGameService {
-	static _games = null;
 
 	constructor(http){
 		this.http = http;
 	}
 
-    _getAllGames() {
-		if(VideoGameService._games == null) {
-			return fetch('data/games.json').then(res => res.json()).then(d => {
-				VideoGameService._games = d;
-				return [...VideoGameService._games];
-			});
-		} else {
-			return new Promise((resolve) => {
-				resolve([...VideoGameService._games]);
-			});
-		}
-	}
     getGames(pageSize, pageOffset) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/games?limit=${pageSize}&skip=${pageOffset}`
+			url: `http://localhost:3000/api/v1/games?limit=${pageSize}&skip=${pageOffset}`
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {
@@ -44,7 +33,7 @@ export default class VideoGameService {
 	getGameById(id) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/games/${id}`
+			url: `http://localhost:3000/api/v1/games/${id}`
 		})
 		.then(response => {
 			return {
@@ -67,7 +56,7 @@ export default class VideoGameService {
 	getGamesCount() {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/games/count`
+			url: `http://localhost:3000/api/v1/games/count`
 		})
 		.then(response => {
 			return response.data;
@@ -79,7 +68,8 @@ export default class VideoGameService {
 	getLastGamesRelease() {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/games?sortedBy=release|-1&limit=4`
+			url: `http://localhost:3000/api/v1/games?sortedBy=release|-1&limit=4`,
+			withCredentials: true
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {
@@ -103,7 +93,7 @@ export default class VideoGameService {
 	saveGame(game) {
 		return this.http({
 			method: 'put',
-			url: `http://localhost:3000/games/${game.id}`,
+			url: `http://localhost:3000/api/v1/games/${game.id}`,
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -119,7 +109,7 @@ export default class VideoGameService {
 	createGame(game) {
 		return this.http({
 			method: 'post',
-			url: `http://localhost:3000/games`,
+			url: `http://localhost:3000/api/v1/games`,
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -135,7 +125,7 @@ export default class VideoGameService {
 	searchGames(pageSize, pageOffset, textSearch, rating) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/games?title=${textSearch}&rating=${rating}&limit=${pageSize}&skip=${pageOffset}`
+			url: `http://localhost:3000/api/v1/games?title=${textSearch}&rating=${rating}&limit=${pageSize}&skip=${pageOffset}`
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {
@@ -157,15 +147,28 @@ export default class VideoGameService {
 		});
 	}
 	deleteGame(game) {
-		return this.http({
-			method: 'delete',
-			url: `http://localhost:3000/games/${game.id}`
-		})
-		.then(response => {
-			return response
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		const _currentUser = UsersService.getCurrentUser();
+		console.log(_currentUser);
+		if(_currentUser){
+			return this.http({
+				method: 'delete',
+				url: `http://localhost:3000/api/v1/games/${game.id}`,
+				headers: {
+					'Authorization': `Bearer ${_currentUser.key}`
+				},
+				withCredentials: true
+			})
+			.then(response => {
+				return response;
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 }

@@ -142,8 +142,7 @@ export default {
 	computed: {
         message() {
             if (sessionStorage.getItem('user')){
-				console.log(sessionStorage.getItem('user'));
-				return "Hi " + sessionStorage.getItem('user');
+				return "Hi " + JSON.parse(sessionStorage.getItem('user'))?.identifiant;
 			} 
 			else {
 				return "Welcome to the games database";

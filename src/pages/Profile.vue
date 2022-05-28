@@ -1,11 +1,20 @@
 <template>
-    <h1></h1>
+    <h1>Hello {{user?.identifiant}}</h1>
 </template>
 
 <script>
+
 export default {
+    data() {
+        return {
+            user: null,
+        }
+    },
     created() {
-		this.userService = this.servicesFactory.getUsersService();
+        
 	},
+    mounted() {
+		this.user = JSON.parse(sessionStorage.getItem('user'));
+    },
 }
 </script>

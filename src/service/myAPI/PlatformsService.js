@@ -1,27 +1,14 @@
 
 export default class PlatformsService {
-	static _platforms = null;
 
 	constructor(http){
 		this.http = http;
 	}
 
-	_getAllPlatforms() {
-		if(PlatformsService._platforms == null) {
-			return fetch('data/platforms.json').then(res => res.json()).then(d => {
-				PlatformsService._platforms = d;
-				return [...PlatformsService._platforms];
-			});
-		} else {
-			return new Promise((resolve) => {
-				resolve([...PlatformsService._platforms]);
-			});
-		}
-	}
     getPlatforms(pageSize, pageOffset) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/platforms?limit=${pageSize}&skip=${pageOffset}`
+			url: `http://localhost:3000/api/v1/platforms?limit=${pageSize}&skip=${pageOffset}`
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {
@@ -40,7 +27,7 @@ export default class PlatformsService {
 	getPlatformsCount() {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/platforms/count`
+			url: `http://localhost:3000/api/v1/platforms/count`
 		})
 		.then(response => {
 			return response.data;
@@ -52,7 +39,7 @@ export default class PlatformsService {
 	getPlatformById(id) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/platforms/${id}`
+			url: `http://localhost:3000/api/v1/platforms/${id}`
 		})
 		.then(response => {
 			return {
@@ -70,7 +57,7 @@ export default class PlatformsService {
 	getLastPlatformsRelease() {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/platforms?sortedBy=release|-1&limit=4`
+			url: `http://localhost:3000/api/v1/platforms?sortedBy=release|-1&limit=4`
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {
@@ -89,7 +76,7 @@ export default class PlatformsService {
 	savePlatform(platform) {
 		return this.http({
 			method: 'put',
-			url: `http://localhost:3000/platforms/${platform.id}`,
+			url: `http://localhost:3000/api/v1/platforms/${platform.id}`,
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -105,7 +92,7 @@ export default class PlatformsService {
 	createPlatform(platform) {
 		return this.http({
 			method: 'post',
-			url: `http://localhost:3000/platforms`,
+			url: `http://localhost:3000/api/v1/platforms`,
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -121,7 +108,7 @@ export default class PlatformsService {
 	searchPlatforms(pageSize, pageOffset, textSearch) {
 		return this.http({
 			method: 'get',
-			url: `http://localhost:3000/platforms?name=${textSearch}&limit=${pageSize}&skip=${pageOffset}`
+			url: `http://localhost:3000/api/v1/platforms?name=${textSearch}&limit=${pageSize}&skip=${pageOffset}`
 		})
 		.then(response => {
 			const data = response.data.map((d) => { return {

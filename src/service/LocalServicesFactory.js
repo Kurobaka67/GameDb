@@ -1,5 +1,5 @@
-import UsersService from "./local/UsersService";
-import VideoGameService from "./local/VideoGameService";
+import UsersService from "./myAPI/UsersService";
+import VideoGameService from "./myAPI/VideoGameService";
 
 
 export default class LocalServicesFactory {

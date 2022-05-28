@@ -1,38 +1,51 @@
 export default class UsersService {
-	static _users = null;
     static _currentUser = null;
 
-    _getAllUsers() {
-		if(UsersService._users == null) {
-			return fetch('data/users.json').then(res => res.json()).then(d => {
-				UsersService._users = d.data;
-				return [...UsersService._users];
-			});
-		} else {
-			return new Promise((resolve) => {
-				resolve([...UsersService._users]);
-			});
-		}
+	constructor(http){
+		this.http = http;
 	}
+
     getUsers() {
-		return this._getAllUsers();
-	}
-	login(email, password) {
-        const sha256 = require("js-sha256").sha256;
-        const v = sha256(password);
-		return this._getAllUsers().then(d => {
-			const r = d.filter((u) => {
-                return (u.email == email) && (u.password.toUpperCase() == v.toUpperCase());
-            });
-			if(r.length > 0) {
-                UsersService._currentUser = r[0];
-				return r[0];
-			} else {
-				return null;
-			}
+		return this.http({
+			method: 'get',
+			url: `http://localhost:3000/api/v1/users`
+		})
+		.then(response => {
+			const data = response.data.map((d) => { return {
+				id: d._id,
+				identifiant: d.identifiant,
+				email: d.email,
+				password: d.password,
+				role: d.role,
+				icon: d.icon
+			}});
+			return data;
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
-    getCurrentUser() {
+	login(email, password) {
+		const auth = btoa(email + ":" + password);
+		return this.http({
+			method: 'post',
+			url: `http://localhost:3000/api/v1/users/login`,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Basic '+auth
+			},
+			data: `{ "email": "${email}", "password": "${password}"}`,
+			withCredentials: true
+		})
+		.then(response => {
+			UsersService._currentUser = response.data;
+			return response.data;
+		})
+		.catch(err => {
+			console.error(err);
+		});
+	}
+    static getCurrentUser() {
         return UsersService._currentUser;
     }
 

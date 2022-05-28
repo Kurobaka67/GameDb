@@ -22,7 +22,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local')"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUser() != 'Guest' && getCurrentUser()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>

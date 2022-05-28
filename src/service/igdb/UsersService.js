@@ -5,7 +5,7 @@ export default class UsersService {
     _getAllUsers() {
 		if(UsersService._users == null) {
 			return fetch('data/users.json').then(res => res.json()).then(d => {
-				UsersService._users = d.data;
+				UsersService._users = d;
 				return [...UsersService._users];
 			});
 		} else {
