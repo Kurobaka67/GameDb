@@ -1,5 +1,5 @@
 export default class UsersService {
-    static _currentUser = null;
+    static _currentUser = JSON.parse(sessionStorage.getItem('user'));
 
 	constructor(http){
 		this.http = http;

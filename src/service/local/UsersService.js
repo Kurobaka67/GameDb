@@ -1,6 +1,6 @@
 export default class UsersService {
 	static _users = null;
-    static _currentUser = null;
+    static _currentUser = JSON.parse(sessionStorage.getItem('user'));
 
     _getAllUsers() {
 		if(UsersService._users == null) {
