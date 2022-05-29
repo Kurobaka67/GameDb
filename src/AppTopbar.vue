@@ -6,14 +6,10 @@
 		</router-link>
 		<ul class="layout-topbar-menu">
 			<li>
-				<button class="p-link layout-topbar-button" @click="gotoGame">
-					<p>Games</p>
-				</button>
+				<Button label="Games" class="p-button-text" @click="gotoGame" />
 			</li>
 			<li>
-				<button class="p-link layout-topbar-button" @click="gotoPlatforms">
-					<p>Platforms</p>
-				</button>
+				<Button label="Platforms" class="p-button-text" @click="gotoPlatforms" />
 			</li>
 		</ul>
 
@@ -41,36 +37,23 @@ import { reactive } from "vue";
 export default {
 	data() {
         return {
+			currentUser: null,
 			selectedType: null,
 			type: [
                 'local',
                 'igdb',
                 'rawg',
 				'my api'
-            ],
-			items: [
-				{
-					label: this.currentUser,
-					icon:'pi-menubar pi pi-user',
-					items:[
-						{
-							label:'Profile',
-							command: this.gotoprofile,
-						},
-						{
-							label:'Login',
-							command: this.gotologin,
-						}
-					]
-				}
-			]
+            ]
 		}
 	},
 	created() {
 		if(sessionStorage.getItem('type')){
 			this.servicesFactory.setType(sessionStorage.getItem('type'));
 		}
-		
+		else{
+			sessionStorage.setItem('type', 'local');
+		}
 	},
 	mounted() {
 		if(sessionStorage.getItem('type')){
@@ -79,6 +62,7 @@ export default {
 		else{
 			this.selectedType = "local";
 		}
+		this.currentUser = JSON.parse(sessionStorage.getItem('user'))?.identifiant;
 	},
     methods: {
         onMenuToggle(event) {
@@ -106,6 +90,7 @@ export default {
 			sessionStorage.removeItem('user');
 			localStorage.removeItem('email');
 			localStorage.removeItem('password');
+			this.currentUser = null;
 			if(this.$router.currentRoute.value.fullPath == '/'){
 				window.location.reload(false);
 			}
@@ -152,9 +137,6 @@ export default {
 				return "Shiro";
 			}
 		},
-		currentUser() {
-			return JSON.parse(sessionStorage.getItem('user'))?.identifiant;
-		},
 		allItems() {
 			if(sessionStorage.getItem('user')){
 				return [
@@ -177,7 +159,6 @@ export default {
 			else {
 				return [
 					{
-						label: this.currentUser,
 						icon:'pi-menubar pi pi-user',
 						items:[
 							{
@@ -196,5 +177,9 @@ export default {
 <style>
 .pi-menubar{
 	font-size: 1.5em
+}
+
+.p-button:focus{
+	box-shadow: none;
 }
 </style>

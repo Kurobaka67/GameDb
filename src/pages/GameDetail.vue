@@ -21,10 +21,10 @@
 						<Knob :modelValue="game?.rating" :valueColor="ratingColor"/>
 					</div>
 					<div class="col-10 text-right">
-						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUserRole() != 'Guest' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"/>
+						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"/>
 					</div>
 					<div class="col-1">
-						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUserRole() != 'Guest' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"></Button>
+						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"></Button>
 					</div>
 					<div class="col-1">
 						<Button label="Close" class="p-button-sm" @click="close" />

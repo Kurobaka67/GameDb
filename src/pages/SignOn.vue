@@ -49,7 +49,7 @@ export default {
                 identifiant: null,
                 email: null,
                 password: null,
-                role: "Guest",
+                role: "User",
                 icon: null
             },
             pressed: null
@@ -64,11 +64,12 @@ export default {
     },
     methods: {
         signon() {
+            const sha256 = require("js-sha256").sha256;
             this.pressed = true;
             if(this.username && this.email && this.password){
                 this.user.email = this.email;
-                this.user.name = this.username;
-                this.user.password = this.password;
+                this.user.identifiant = this.username;
+                this.user.password = sha256(this.password).toUpperCase();
                 this.userService.signon(this.user);
                 this.$router.push('/login');
             }

@@ -91,36 +91,54 @@ export default class VideoGameService {
 		});
 	}
 	saveGame(game) {
-		return this.http({
-			method: 'put',
-			url: `http://localhost:3000/api/v1/games/${game.id}`,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ["${game.platforms.join("\",\"")}"], "description": "${game.description}", "publisher": "${game.publisher}", "genres": ["${game.genres.join("\",\"")}"], "status": "${game.status}"}`
-		})
-		.then(response => {
-			return response
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		const _currentUser = UsersService.getCurrentUser();
+		if(_currentUser){
+			return this.http({
+				method: 'put',
+				url: `http://localhost:3000/api/v1/games/${game.id}`,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${_currentUser.key}`
+				},
+				data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ["${game.platforms.join("\",\"")}"], "description": "${game.description}", "publisher": "${game.publisher}", "genres": ["${game.genres.join("\",\"")}"], "status": "${game.status}"}`
+			})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 	createGame(game) {
-		return this.http({
-			method: 'post',
-			url: `http://localhost:3000/api/v1/games`,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ["${game.platforms.join("\",\"")}"], "description": "${game.description}", "publisher": "${game.publisher}", "genres": ["${game.genres.join("\",\"")}"], "status": "${game.status}"}`
-		})
-		.then(response => {
-			return response
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		const _currentUser = UsersService.getCurrentUser();
+		if(_currentUser){
+			return this.http({
+				method: 'post',
+				url: `http://localhost:3000/api/v1/games`,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${_currentUser.key}`
+				},
+				data: `{"title": "${game.title}", "image": "${game.image}", "rating": ${game.rating}, "release": "${game.release}", "platforms": ["${game.platforms.join("\",\"")}"], "description": "${game.description}", "publisher": "${game.publisher}", "genres": ["${game.genres.join("\",\"")}"], "status": "${game.status}"}`
+			})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 	searchGames(pageSize, pageOffset, textSearch, rating) {
 		return this.http({
@@ -148,7 +166,6 @@ export default class VideoGameService {
 	}
 	deleteGame(game) {
 		const _currentUser = UsersService.getCurrentUser();
-		console.log(_currentUser);
 		if(_currentUser){
 			return this.http({
 				method: 'delete',

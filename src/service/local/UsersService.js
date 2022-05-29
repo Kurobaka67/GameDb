@@ -48,6 +48,14 @@ export default class UsersService {
 			}
 		})
 	}
+	saveUser(user){
+		return this._getAllUsers().then(d => {
+			const r = d.filter((u) => u.id == user.id);
+			if(r.length > 0) {
+				return r[0];
+			}
+		});
+	}
     getCurrentUser() {
         return UsersService._currentUser;
     }

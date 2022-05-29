@@ -32,8 +32,33 @@ export default class UsersService {
 			}
 		});
 	}
+	signon(user) {
+		this._getAllUsers().then(d => {
+			const r = d.filter((u) => {
+                return (u.email == user.email);
+            });
+			if(r > 0){
+				return null;
+			}
+			else{
+				user.id = this.nextId();
+				UsersService._users.push(user);
+				console.log(UsersService._users)
+				return user;
+			}
+		})
+	}
     getCurrentUser() {
         return UsersService._currentUser;
     }
+	nextId() {
+		let r = 0;
+		UsersService._users.map((u) => {
+			if(u.id > r){
+				r = u.id;
+			}
+		});
+		return ++r;
+	}
 
 }

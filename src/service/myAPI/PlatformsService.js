@@ -1,3 +1,4 @@
+import UsersService from "./UsersService";
 
 export default class PlatformsService {
 
@@ -74,36 +75,54 @@ export default class PlatformsService {
 		});
 	}
 	savePlatform(platform) {
-		return this.http({
-			method: 'put',
-			url: `http://localhost:3000/api/v1/platforms/${platform.id}`,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			data: `{"name": "${platform.name}", "image": "${platform.image}", "date": "${platform.date}", "description": "${platform.description}"}`
-		})
-		.then(response => {
-			return response
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		const _currentUser = UsersService.getCurrentUser();
+		if(_currentUser){
+			return this.http({
+				method: 'put',
+				url: `http://localhost:3000/api/v1/platforms/${platform.id}`,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${_currentUser.key}`
+				},
+				data: `{"name": "${platform.name}", "image": "${platform.image}", "date": "${platform.date}", "description": "${platform.description}"}`
+			})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 	createPlatform(platform) {
-		return this.http({
-			method: 'post',
-			url: `http://localhost:3000/api/v1/platforms`,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			data: `{"name": "${platform.name}", "image": "${platform.image}", "date": "${platform.date}", "description": "${platform.description}"}`
-		})
-		.then(response => {
-			return response
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		const _currentUser = UsersService.getCurrentUser();
+		if(_currentUser){
+			return this.http({
+				method: 'post',
+				url: `http://localhost:3000/api/v1/platforms`,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${_currentUser.key}`
+				},
+				data: `{"name": "${platform.name}", "image": "${platform.image}", "date": "${platform.date}", "description": "${platform.description}"}`
+			})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 	searchPlatforms(pageSize, pageOffset, textSearch) {
 		return this.http({
@@ -124,23 +143,27 @@ export default class PlatformsService {
 			console.error(err);
 		});
 	}
-	deletePlatform(game) {
-		var index = PlatformsService._games.findIndex(g => g.id == game.id);
-		return this._getAllGames().then(d => {
-			
-			d.splice(index, 1);
-		});
-	}
-	escapeRegExp(string) {
-		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-	}
-	nextId() {
-		let r = 0;
-		PlatformsService._platforms.map((p) => {
-			if(p.id > r){
-				r = p.id;
-			}
-		});
-		return ++r;
+	deletePlatform(platform) {
+		const _currentUser = UsersService.getCurrentUser();
+		if(_currentUser){
+			return this.http({
+				method: 'delete',
+				url: `http://localhost:3000/api/v1/platforms/${platform.id}`,
+				headers: {
+					'Authorization': `Bearer ${_currentUser.key}`
+				}
+			})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		}
+		else{
+			return new Promise(function(myResolve) {
+				myResolve(); 
+			});
+		}
 	}
 }
