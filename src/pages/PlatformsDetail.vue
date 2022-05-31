@@ -6,20 +6,20 @@
 			<div class="card">
 				<div class="grid">
 					<h5 class="col-12">{{platform?.name}}</h5>
-					<div class="col-4">
+					<div class="col-12 lg:col-4">
 						<img :src="getImage(platform?.image)" width="300"/>
 					</div>
-					<div class="col-7">
+					<div class="col-12 lg:col-7">
 						<p>Release : <span>{{release}}</span></p>
 						<p>Description : {{platform?.description}}</p>
 					</div>
-					<div class="col-10 text-right">
-						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUser() != 'User' && getCurrentUser()) && (getType() == 'local' || getType() == 'my api')"/>
+					<div class="col-3 lg:col-10 text-right">
+						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"/>
 					</div>
-					<div class="col-1">
-						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUser() != 'User' && getCurrentUser()) && (getType() == 'local' || getType() == 'my api')"></Button>
+					<div class="col-3 lg:col-1">
+						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"></Button>
 					</div>
-					<div class="col-1">
+					<div class="col-3 lg:col-1">
 						<Button label="Close" class="p-button-sm" @click="close" />
 					</div>
 				</div>
@@ -83,8 +83,8 @@ export default {
                 }
             });
         },
-		getCurrentUser() {
-			return sessionStorage.getItem('role');
+		getCurrentUserRole() {
+			return JSON.parse(sessionStorage.getItem('user'))?.role;
 		},
 		getType() {
 			return sessionStorage.getItem('type');

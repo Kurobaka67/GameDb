@@ -17,6 +17,16 @@ export default class UsersService {
     getUsers() {
 		return this._getAllUsers();
 	}
+	getUser(id){
+		return this._getAllUsers().then(d => {
+			const r = d.filter((u) => u.id == id);
+			if(r.length > 0) {
+				return r[0];
+			} else {
+				return null;
+			}
+		});
+	}
 	login(email, password) {
         const sha256 = require("js-sha256").sha256;
         const v = sha256(password);

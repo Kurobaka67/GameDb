@@ -6,24 +6,26 @@
 				<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="9" :lazy="true" @page="onPage($event)" :totalRecords="gamescount">
 					<template #header>
 						<div class="grid grid-nogutter">
-							<div class="col-6 text-center">
-								<DataViewLayoutOptions v-model="layout" />
-							</div>
-							<div class="col-2 text-right" style="display: flex; flex-direction: row; align-items: center; margin: 0 auto;">
-								<label for="rating" style="padding: 10px;">Rating : </label>
-								<Slider v-model="rating" @change="search" class="p-slider" style="width: 30% ;"/>
-								<p style="padding: 10px;">{{rating?rating:0}}</p>
-							</div>
-							<div class="col-3 text-right">
-								<span class="p-input-icon-left">
-								<i class="pi pi-search" />
-								<InputText type="text" v-model="textSearch" placeholder="Search"/>
-								</span>
-							</div>
-							<div class="col-1 text-right">
-								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUser() != 'User' && getCurrentUser()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
-								</span>
+							<div class="flex flex-column lg:flex-row lg:w-full">
+								<div class="col-12 lg:col-6 lg:text-center">
+									<DataViewLayoutOptions v-model="layout" />
+								</div>
+								<div class="col-12 lg:col-2 text-right flex flex-row align-items-center" style="margin: 0 auto;">
+									<label for="rating" style="padding: 10px;">Rating : </label>
+									<Slider v-model="rating" @change="search" class="p-slider" style="width: 30% ;"/>
+									<p style="padding: 10px;">{{rating?rating:0}}</p>
+								</div>
+								<div class="col-12 lg:col-3 lg:text-right">
+									<span class="p-input-icon-left">
+									<i class="pi pi-search" />
+									<InputText type="text" v-model="textSearch" placeholder="Search"/>
+									</span>
+								</div>
+								<div class="col-12 lg:col-1 lg:text-right">
+									<span class="p-input-icon-left">
+									<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
+									</span>
+								</div>
 							</div>
 						</div>
 					</template>
@@ -136,8 +138,8 @@
 			getType() {
 				return sessionStorage.getItem('type');
 			},
-			getCurrentUser() {
-				return sessionStorage.getItem('role');
+			getCurrentUserRole() {
+				return JSON.parse(sessionStorage.getItem('user'))?.role;
 			}
 		}
 	}

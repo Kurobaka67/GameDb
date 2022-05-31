@@ -1,16 +1,11 @@
 <template>
 	<div class="layout-topbar" :style="topbarStyle">
-		<router-link to="/" class="layout-topbar-logo">
+		<router-link to="/" class="layout-topbar-logo" style="width: 100px; box-shadow: none;">
 			<img src="images/avatar/KurobaCat.png" :style="imageStyle" alt="Kuro logo" />
 			<span>{{name}}</span>
 		</router-link>
-		<ul class="layout-topbar-menu">
-			<li>
-				<Button label="Games" class="p-button-text" @click="gotoGame" />
-			</li>
-			<li>
-				<Button label="Platforms" class="p-button-text" @click="gotoPlatforms" />
-			</li>
+		<ul class="layout-topbar-menu hidden lg:flex align-items-center">
+			
 		</ul>
 
 		<button class="p-link layout-topbar-menu-button layout-topbar-button"
@@ -20,10 +15,19 @@
 		</button>
 		<ul class="layout-topbar-menu hidden lg:flex align-items-center">
 			<li>
+				<Button label="Games" class="p-button-text" @click="gotoGame" />
+			</li>
+			<li>
+				<Button label="Platforms" class="p-button-text" @click="gotoPlatforms" />
+			</li>
+			<li>
 				<p style="padding-right: 5px;">Data Source : </p>
 			</li>
 			<li>
 				<Dropdown v-model="selectedType" :options="type" @change="changeAPI"/>
+			</li>
+			<li>
+				<img v-if="currentUser?.email" :src="currentUser?.icon?currentUser.icon:'images/user_icon.jfif'" alt="" width="35" style="border-radius: 50%; margin-left: 15px;">
 			</li>
 			<li v-if="getType() == 'local' || getType() == 'my api'">
 				<Menubar :model="allItems" style="background-color: var(--surface-ground); border: none"/>
@@ -37,7 +41,7 @@ import { reactive } from "vue";
 export default {
 	data() {
         return {
-			currentUser: null,
+			currentUser: {},
 			selectedType: null,
 			type: [
                 'local',
@@ -62,7 +66,8 @@ export default {
 		else{
 			this.selectedType = "local";
 		}
-		this.currentUser = JSON.parse(sessionStorage.getItem('user'))?.identifiant;
+		this.currentUser = JSON.parse(sessionStorage.getItem('user'));
+		console.log(this.selectedType);
 	},
     methods: {
         onMenuToggle(event) {
@@ -101,6 +106,7 @@ export default {
 		changeAPI(){
 			sessionStorage.setItem('type', this.selectedType);
 			this.servicesFactory.setType(sessionStorage.getItem('type'));
+			sessionStorage.removeItem('user');
 			if(this.$router.currentRoute.value.fullPath == '/'){
 				window.location.reload(false);
 			}
@@ -141,8 +147,7 @@ export default {
 			if(sessionStorage.getItem('user')){
 				return [
 					{
-						label: this.currentUser,
-						icon:'pi-menubar pi pi-user',
+						label: this.currentUser?.identifiant,
 						items:[
 							{
 								label:'Profile',

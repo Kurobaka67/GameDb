@@ -5,9 +5,9 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="grid">
-					<h5 class="col-11">{{game?.title}}</h5>
-					<p class="col-1">{{game?.status}}</p>
-					<div class="col-4">
+					<h5 class="col-12 lg:col-11">{{game?.title}}</h5>
+					<p class="col-12 lg:col-1">{{game?.status}}</p>
+					<div class="col-12 lg:col-4">
 						<img :src="getImage(game?.image)" width="300"/>
 					</div>
 					<div class="col-7">
@@ -17,16 +17,16 @@
 						<p>Publisher : {{game?.publisher}}</p>
 						<p>Description : {{game?.description}}</p>
 					</div>
-					<div class="col-1">
+					<div class="col-5 lg:col-1">
 						<Knob :modelValue="game?.rating" :valueColor="ratingColor"/>
 					</div>
-					<div class="col-10 text-right">
+					<div class="col-3 lg:col-10 text-right">
 						<Button label="Edit" class="p-button-sm" @click="edit" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"/>
 					</div>
-					<div class="col-1">
+					<div class="col-3 lg:col-1">
 						<Button label="Delete" class="p-button-sm p-button-warning" @click="confirm($event)" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"></Button>
 					</div>
-					<div class="col-1">
+					<div class="col-3 lg:col-1">
 						<Button label="Close" class="p-button-sm" @click="close" />
 					</div>
 				</div>

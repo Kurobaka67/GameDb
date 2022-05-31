@@ -39,6 +39,7 @@ export default {
         save() {
             this.userService.saveUser(this.user).then(data => {
                 sessionStorage.setItem('user', JSON.stringify(data));
+                window.location.reload(false);
             });
         }
     }

@@ -17,7 +17,7 @@
 							</div>
 							<div class="col-1 text-right">
 								<span class="p-input-icon-left">
-								<Button class="p-button-sm" @click="addplatform" v-if="(getCurrentUser() != 'User' && getCurrentUser()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
+								<Button class="p-button-sm" @click="addplatform" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
 								</span>
 							</div>
 						</div>
@@ -109,8 +109,8 @@ import PlatformCard from '../components/PlatformCard.vue'
 			getType() {
 				return sessionStorage.getItem('type');
 			},
-			getCurrentUser() {
-				return sessionStorage.getItem('role');
+			getCurrentUserRole() {
+				return JSON.parse(sessionStorage.getItem('user'))?.role;
 			}
 		}
 	}

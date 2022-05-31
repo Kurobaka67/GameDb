@@ -4,23 +4,22 @@
     <div class="col-12">
       <div class="card">
         <div class="grid formgrid">
-          <h5 class="col-11">{{ title }}</h5>
-          <p class="col-1">{{ game?.status }}</p>
-          <div class="col-4">
+          <h5 class="col-12">{{ name }}</h5>
+          <div class="col-12 lg:col-4">
             <img :src="getImage(urlImage)" width="300"/>
           </div>
-          <div class="col-8">
+          <div class="col-12 lg:col-8">
             <div class="field grid">
               <label for="name" class="col-fixed" style="width: 100px"
                 >Name :
               </label>
-              <InputText type="text" v-model="name" size="77"/>
+              <InputText class="w-11 lg:w-8" type="text" v-model="name"/>
             </div>
             <div class="field grid">
               <label for="urlImage" class="col-fixed" style="width: 100px"
                 >Url image :
               </label>
-              <InputText type="text" v-model="urlImage" size="77"/>
+              <InputText class="w-11 lg:w-8" type="text" v-model="urlImage"/>
             </div>
             <div class="field grid">
               <label for="release" class="col-fixed" style="width: 100px"
@@ -40,10 +39,10 @@
               />
             </div>
           </div>
-          <div class="col-11 text-right">
+          <div class="col-3 lg:col-11 text-right">
             <Button class="p-button-sm" @click="save">Save</Button>
           </div>
-          <div class="col-1">
+          <div class="col-3 lg:col-1">
             <Button class="p-button-sm" @click="cancel">Cancel</Button>
           </div>
         </div>
@@ -104,7 +103,7 @@ export default {
       if(this.platform.description != this.description ||
         this.platform.image != this.urlImage ||
         this.platform.name != this.name ||
-        this.platform.date != dayjs(this.release).format('YYYY-MM-DD')){
+        this.platform.date != dayjs(this?.release).format('YYYY-MM-DD')){
           const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
           if (answer) {
             next();
