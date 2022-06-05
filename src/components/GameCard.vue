@@ -9,10 +9,10 @@
             <img :src="getImage(game.data?.image)" :alt="game.data.title" width="200" height="140" style="object-fit: scale-down;"/>
         </div>
         <div class="flex align-items-center justify-content-between">
-            <span>{{game.data.publisher}}</span>
+            <span style="font-size: 0.8rem">{{game.data.publisher?game.data.publisher:"&shy;"}}</span>
         </div>
         <div class="flex align-items-center justify-content-between">
-            <span>{{genres(game.data)}}</span>
+            <span style="font-size: 0.8rem">{{genres(game.data)}}</span>
             <span>{{game.data.rating?game.data.rating:"N/A"}}</span>
         </div>
     </div>

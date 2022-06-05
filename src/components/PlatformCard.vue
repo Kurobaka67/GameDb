@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="text-center">
-            <img :src="getImage(platform.data?.image)" :alt="platform.data.title" width="150"/>
+            <img :src="getImage(platform.data?.image)" :alt="platform.data.title" width="200" height="140" style="object-fit: scale-down;"/>
         </div>
     </div>
 </template>

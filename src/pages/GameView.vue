@@ -12,7 +12,7 @@
 								</div>
 								<div class="col-12 lg:col-2 text-right flex flex-row align-items-center" style="margin: 0 auto;">
 									<label for="rating" style="padding: 10px;">Rating : </label>
-									<Slider v-model="rating" @change="search" class="p-slider" style="width: 30% ;"/>
+									<Slider v-model="rating" @slideend="search" class="p-slider" style="width: 30% ;"/>
 									<p style="padding: 10px;">{{rating?rating:0}}</p>
 								</div>
 								<div class="col-12 lg:col-3 lg:text-right">
@@ -23,7 +23,7 @@
 								</div>
 								<div class="col-12 lg:col-1 lg:text-right">
 									<span class="p-input-icon-left">
-									<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
+										<Button class="p-button-sm" @click="addgame" v-if="(getCurrentUserRole() != 'User' && getCurrentUserRole()) && (getType() == 'local' || getType() == 'my api')"><i class="pi pi-plus" /></Button>
 									</span>
 								</div>
 							</div>
