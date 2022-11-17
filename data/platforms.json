@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "PC",
+        "image": null,
+        "date": "",
+        "description": "Hey"
+    },
+    {
+        "id": 2,
+        "name": "XBox",
+        "image": null,
+        "date": "",
+        "description": "Yo"
+    }
+]
